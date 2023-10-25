@@ -10,4 +10,12 @@ public class CPU extends Component {
         this.cores = cores;
         this.socket = socket;
     }
+
+    public int getCores() {
+        return cores;
+    }
+
+    public String getSocket() {
+        return socket;
+    }
 }

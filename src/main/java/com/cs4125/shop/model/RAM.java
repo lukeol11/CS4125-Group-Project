@@ -9,4 +9,12 @@ public class RAM extends Component {
         this.capacity = capacity;
         this.speed = speed;
     }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
 }

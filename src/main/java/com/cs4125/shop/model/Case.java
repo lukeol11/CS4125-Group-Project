@@ -9,4 +9,12 @@ public class Case extends Component {
         this.formFactor = formFactor;
         this.driveBays = driveBays;
     }
+
+    public String getFormFactor() {
+        return formFactor;
+    }
+
+    public int getDriveBays() {
+        return driveBays;
+    }
 }

@@ -9,4 +9,12 @@ public class PowerSupply extends Component {
         this.wattageOutput = wattageOutput;
         this.efficiencyRating = efficiencyRating;
     }
+
+    public int getWattageOutput() {
+        return wattageOutput;
+    }
+
+    public String getEfficiencyRating() {
+        return efficiencyRating;
+    }
 }

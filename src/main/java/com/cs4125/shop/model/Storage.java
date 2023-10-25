@@ -9,4 +9,12 @@ public class Storage extends Component {
         this.capacity = capacity;
         this.type = type;
     }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public String getType() {
+        return type;
+    }
 }

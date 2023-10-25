@@ -9,4 +9,12 @@ public class GraphicsCard extends Component {
         this.memory = memory;
         this.baseClock = baseClock;
     }
+
+    public int getMemory() {
+        return memory;
+    }
+
+    public int getBaseClock() {
+        return baseClock;
+    }
 }

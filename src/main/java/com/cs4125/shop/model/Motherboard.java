@@ -9,4 +9,12 @@ public class Motherboard extends Component {
         this.chipset = chipset;
         this.formFactor = formFactor;
     }
+
+    public String getChipset() {
+        return chipset;
+    }
+
+    public String getFormFactor() {
+        return formFactor;
+    }
 }
