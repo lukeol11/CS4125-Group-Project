@@ -32,13 +32,13 @@ public class ComponentController {
         componentList.add(new GraphicsCard("NVIDIA GeForce RTX 2070 Super", 499.99, 250, 8, 1605));
         componentList.add(new GraphicsCard("NVIDIA GeForce RTX 2060 Super", 399.99, 250, 8, 1470));
         // psu
-        componentList.add(new PowerSupply("Corsair RMx Series RM750x", 129.99, 0, 750, "80+ Bronze"));
-        componentList.add(new PowerSupply("Corsair RMx Series RM850x", 149.99, 0, 850, "80+ Bronze"));
+        componentList.add(new PowerSupply("Corsair RMx Series RM750x", 129.99, 0, 750, "80+ Silver"));
+        componentList.add(new PowerSupply("Corsair RMx Series RM850x", 149.99, 0, 850, "80+ Titanium"));
         componentList.add(new PowerSupply("Corsair RMx Series RM1000x", 179.99, 0, 1000, "80+ Bronze"));
         // case
-        componentList.add(new Case("Corsair Carbide Series 275R", 79.99, 0, "ATX Mid Tower", 2));
+        componentList.add(new Case("Corsair Carbide Series 275R", 79.99, 0, "ATX Full Tower", 2));
         componentList.add(new Case("Corsair Carbide Series 678C", 199.99, 0, "ATX Mid Tower", 6));
-        componentList.add(new Case("Corsair Carbide Series 678C", 199.99, 0, "ATX Mid Tower", 0));
+        componentList.add(new Case("Corsair Carbide Series 678C", 199.99, 0, "Mini ITX Desktop", 0));
         // storage
         componentList.add(new Storage("Samsung 970 Evo 1TB", 169.99, 10, 1000, "M.2"));
         componentList.add(new Storage("Samsung 970 Evo 2TB", 349.99, 10, 2000, "M.2"));
