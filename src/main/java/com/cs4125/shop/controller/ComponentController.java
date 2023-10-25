@@ -15,7 +15,7 @@ public class ComponentController {
     private List<Component> componentList = new ArrayList<>();
     private ShoppingCart cart = new ShoppingCart();
 
-    public ComponentController () {
+    public ComponentController() {
         componentList.add(new CPU("Intel Core i7-9700K", 409.99, 95, 8, "LGA 1151"));
         componentList.add(new CPU("AMD Ryzen 7 3700X", 329.99, 65, 8, "AM4"));
         componentList.add(new CPU("Intel Core i9-9900K", 529.99, 95, 8, "LGA 1151"));
@@ -61,10 +61,9 @@ public class ComponentController {
         return componentInfoList;
     }
 
-
     // Endpoint to add a component to the cart
     @PostMapping("/cart/add")
-    public void addComponentToCart(@RequestBody String componentName) {
+    public void addComponentToCart(@RequestParam("name") String componentName) {
         // search for component in componentList
         for (Component component : componentList) {
             if (component.getName().equals(componentName)) {
