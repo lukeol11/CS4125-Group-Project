@@ -20,4 +20,8 @@ public class Component {
     public double getPrice() {
         return this.price;
     }
+
+    public Integer getWattage() {
+        return this.wattage;
+    }
 }
