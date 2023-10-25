@@ -1,4 +1,4 @@
-# CS4125-Project
+# CS4125 Project
 
 | Contributors |
 | ------------ |
