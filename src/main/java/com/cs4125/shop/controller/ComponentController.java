@@ -1,7 +1,7 @@
 package com.cs4125.shop.controller;
 
 import com.cs4125.shop.model.*;
-import com.cs4125.shop.shoppingCart.ShoppingCart;
+import com.cs4125.shop.shoppingcart.ShoppingCart;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
