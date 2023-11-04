@@ -2,6 +2,9 @@ package com.cs4125.shop.controller;
 
 import com.cs4125.shop.model.*;
 import com.cs4125.shop.shoppingcart.ShoppingCart;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -14,6 +17,7 @@ import java.util.Map;
 public class ComponentController {
     private List<Component> componentList = new ArrayList<>();
     private ShoppingCart cart = new ShoppingCart();
+    private List<User> userList = new ArrayList<>();
 
     public ComponentController() {
         componentList.add(new CPU("Intel Core i7-9700K", 409.99, 95, 8, "LGA 1151"));
@@ -78,4 +82,65 @@ public class ComponentController {
     public List<Component> getCartComponents() {
         return cart.getComponents();
     }
+
+ @PostMapping("/awardLoyaltyPoints")
+public ResponseEntity<?> awardLoyaltyPoints(@RequestParam("username") String username, @RequestParam("points") int points) {
+    User user = findUserByUsername(username);
+
+    if (user != null) {
+        user.addLoyaltyPoints(points);
+        return ResponseEntity.ok("Loyalty points awarded successfully.");
+    } else {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
+    }
+}
+
+@GetMapping("/getLoyaltyPoints")
+public ResponseEntity<?> getLoyaltyPoints(@RequestParam("username") String username) {
+    User user = findUserByUsername(username);
+
+    if (user != null) {
+        return ResponseEntity.ok(user.getLoyaltyPoints());
+    } else {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
+    }
+}
+
+@PostMapping("/users/create")
+public ResponseEntity<String> createUser(
+    @RequestParam("username") String username,
+    @RequestParam("loyaltyPoints") int loyaltyPoints) {
+    // Create a new User instance with the provided username and loyaltyPoints
+    User newUser = new User(username, loyaltyPoints);
+
+    // Add the new user to the userList
+    userList.add(newUser);
+
+    return ResponseEntity.ok("User created successfully.");
+}
+
+private User findUserByUsername(String username) {
+    for (User user : userList) {
+        if (user.getUsername().equals(username)) {
+            return user;
+        }
+    }
+    return null; 
+}
+
+   // Calculate the total price of items in the cart
+   private double calculateTotalCartPrice() {
+    double totalPrice = 0.0;
+    for (Component item : cart.getComponents()) {
+        totalPrice += item.getPrice();
+    }
+    return totalPrice;
+}
+
+@GetMapping("/cart/totalPrice")
+public ResponseEntity<Double> getCartTotalPrice() {
+    double totalPrice = calculateTotalCartPrice();
+    return ResponseEntity.ok(totalPrice);
+}
+
 }
