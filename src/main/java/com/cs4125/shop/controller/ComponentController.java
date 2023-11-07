@@ -1,8 +1,10 @@
 package com.cs4125.shop.controller;
 
+import com.cs4125.shop.Service.LoyaltyService;
 import com.cs4125.shop.model.*;
 import com.cs4125.shop.shoppingcart.ShoppingCart;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -83,64 +85,80 @@ public class ComponentController {
         return cart.getComponents();
     }
 
- @PostMapping("/awardLoyaltyPoints")
-public ResponseEntity<?> awardLoyaltyPoints(@RequestParam("username") String username, @RequestParam("points") int points) {
-    User user = findUserByUsername(username);
+    @GetMapping("/getLoyaltyPoints")
+    public ResponseEntity<?> getLoyaltyPoints(@RequestParam("username") String username) {
+        User user = findUserByUsername(username);
 
-    if (user != null) {
-        user.addLoyaltyPoints(points);
-        return ResponseEntity.ok("Loyalty points awarded successfully.");
-    } else {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
-    }
-}
-
-@GetMapping("/getLoyaltyPoints")
-public ResponseEntity<?> getLoyaltyPoints(@RequestParam("username") String username) {
-    User user = findUserByUsername(username);
-
-    if (user != null) {
-        return ResponseEntity.ok(user.getLoyaltyPoints());
-    } else {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
-    }
-}
-
-@PostMapping("/users/create")
-public ResponseEntity<String> createUser(
-    @RequestParam("username") String username,
-    @RequestParam("loyaltyPoints") int loyaltyPoints) {
-    // Create a new User instance with the provided username and loyaltyPoints
-    User newUser = new User(username, loyaltyPoints);
-
-    // Add the new user to the userList
-    userList.add(newUser);
-
-    return ResponseEntity.ok("User created successfully.");
-}
-
-private User findUserByUsername(String username) {
-    for (User user : userList) {
-        if (user.getUsername().equals(username)) {
-            return user;
+        if (user != null) {
+            return ResponseEntity.ok(user.getLoyaltyPoints());
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
         }
     }
-    return null; 
-}
 
-   // Calculate the total price of items in the cart
-   private double calculateTotalCartPrice() {
-    double totalPrice = 0.0;
-    for (Component item : cart.getComponents()) {
-        totalPrice += item.getPrice();
+    @PostMapping("/users/create")
+    public ResponseEntity<String> createUser(
+            @RequestParam("username") String username,
+            @RequestParam("loyaltyPoints") int loyaltyPoints) {
+        // Create a new User instance with the provided username and loyaltyPoints
+        User newUser = new User(username, loyaltyPoints);
+
+        // Add the new user to the userList
+        userList.add(newUser);
+
+        return ResponseEntity.ok("User created successfully.");
     }
-    return totalPrice;
-}
 
-@GetMapping("/cart/totalPrice")
-public ResponseEntity<Double> getCartTotalPrice() {
-    double totalPrice = calculateTotalCartPrice();
-    return ResponseEntity.ok(totalPrice);
-}
+    private User findUserByUsername(String username) {
+        for (User user : userList) {
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    // Calculate the total price of items in the cart
+    private double calculateTotalCartPrice() {
+        double totalPrice = 0.0;
+        for (Component item : cart.getComponents()) {
+            totalPrice += item.getPrice();
+        }
+        return totalPrice;
+    }
+
+    @GetMapping("/cart/totalPrice")
+    public ResponseEntity<Double> getCartTotalPrice() {
+        double totalPrice = calculateTotalCartPrice();
+        return ResponseEntity.ok(totalPrice);
+    }
+
+    @Autowired
+    private LoyaltyService loyaltyService;
+
+    @PostMapping("/checkout")
+    public ResponseEntity<String> checkout(@RequestParam("username") String username) {
+        User user = findUserByUsername(username);
+
+        if (user != null) {
+            double totalAmount = calculateTotalCartPrice();
+            cart.clearCart(); // Clear the shopping cart after checkout
+            loyaltyService.awardLoyaltyPoints(user, totalAmount);
+            return ResponseEntity.ok("Checkout successful. Loyalty points awarded.");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
+        }
+    }
+
+    @GetMapping("/users/find")
+    public ResponseEntity<User> findUser(@RequestParam("username") String username) {
+        User user = findUserByUsername(username);
+
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
 
 }
