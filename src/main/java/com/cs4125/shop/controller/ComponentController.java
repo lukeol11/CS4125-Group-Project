@@ -62,7 +62,7 @@ public class ComponentController {
     }
 
     // Endpoint to add a component to the cart
-    @PostMapping("/cart/add")
+    //@PostMapping("/cart/add")
     public void addComponentToCart(@RequestParam("name") String componentName) {
         // search for component in componentList
         for (Component component : componentList) {
@@ -78,4 +78,22 @@ public class ComponentController {
     public List<Component> getCartComponents() {
         return cart.getComponents();
     }
+
+    //Check compatibility between components
+    // private boolean checkCompatibility(Component component) {
+    //     for(Component cartComponent : cart.getComponents()) {
+    //         if(!isCompatible(component, cartComponent)) {
+    //             return false;
+    //         }
+    //     }
+    //     return true; //compatible
+    // }
+
+    // //logic for checkCompatibility
+    // private boolean isCompatible(Component component, Component cartComponents) {
+    //     if (component.isCompatibleWith(cartComponents)) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
 }
