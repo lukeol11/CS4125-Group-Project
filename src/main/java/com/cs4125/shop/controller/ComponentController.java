@@ -84,21 +84,37 @@ public class ComponentController {
         return null;
     }
 
+    private double calculateTotalCartPrice() {
+        double totalPrice = 0.0;
+        for (Component item : cart.getComponents()) {
+            totalPrice += item.getPrice();
+        }
+        return totalPrice;
+    }
+
     @PostMapping("/checkout")
     public ResponseEntity<String> checkout(@RequestParam("username") String username,
             @RequestParam("useLoyaltyPoints") int useLoyaltyPoints) {
         User user = findUserByUsername(username);
 
         if (user != null) {
+            double totalAmount = calculateTotalCartPrice();
+
             double discount = useLoyaltyPoints;
             if (discount > user.getLoyaltyPoints()) {
                 discount = user.getLoyaltyPoints();
             }
 
+            int pointsAwarded = (int) (totalAmount / 10);
+            user.addLoyaltyPoints(pointsAwarded);
+
+            totalAmount -= discount;
+
             user.deductLoyaltyPoints(discount);
 
             cart.clearCart();
-            return ResponseEntity.ok("Checkout successful. Loyalty points used: " + discount + " euros.");
+            return ResponseEntity.ok("Checkout successful. Loyalty points used: " + discount
+                    + " euros. Loyalty points earned: " + pointsAwarded);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
         }
