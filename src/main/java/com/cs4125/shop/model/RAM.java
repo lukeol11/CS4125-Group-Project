@@ -1,5 +1,7 @@
 package com.cs4125.shop.model;
 
+import java.util.List;
+
 public class RAM extends Component {
     private int capacity;
     private int speed;
@@ -16,5 +18,14 @@ public class RAM extends Component {
 
     public int getSpeed() {
         return speed;
+    }
+
+    public boolean isCompatibleWith(List<Component> component) {
+        if (component instanceof CPU) {
+            int speedCPU = ((CPU) component).getSpeedCPU();
+            return this.speed == speedCPU;
+        }
+        System.out.println("Run RAM");
+        return true;
     }
 }
