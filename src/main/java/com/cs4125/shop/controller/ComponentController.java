@@ -1,18 +1,30 @@
 package com.cs4125.shop.controller;
 
-import com.cs4125.shop.Service.LoyaltyService;
-import com.cs4125.shop.model.*;
-import com.cs4125.shop.shoppingcart.ShoppingCart;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
+import com.cs4125.shop.model.CPU;
+import com.cs4125.shop.model.Case;
+import com.cs4125.shop.model.Component;
+import com.cs4125.shop.model.GraphicsCard;
+import com.cs4125.shop.model.Motherboard;
+import com.cs4125.shop.model.PowerSupply;
+import com.cs4125.shop.model.RAM;
+import com.cs4125.shop.model.Storage;
+import com.cs4125.shop.model.User;
+import com.cs4125.shop.service.LoyaltyService;
+import com.cs4125.shop.shoppingcart.ShoppingCart;
 
 @RestController
 @RequestMapping("/api")
