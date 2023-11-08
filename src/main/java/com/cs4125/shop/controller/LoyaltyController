@@ -1,0 +1,32 @@
+package com.cs4125.shop.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api")
+public class LoyaltyController {
+    @Autowired
+    private ComponentController componentController;
+
+    // Endpoint to award loyalty points to a user
+    @PostMapping("/awardLoyaltyPoints")
+    public ResponseEntity<?> awardLoyaltyPoints(@RequestParam("username") String username, @RequestParam("points") int points) {
+        // Call the awardLoyaltyPoints method in the ComponentController
+        componentController.awardLoyaltyPoints(username, points);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Loyalty points awarded successfully.");
+    }
+
+    // Endpoint to check loyalty points
+    @GetMapping("/checkLoyaltyPoints")
+    public ResponseEntity<?> checkLoyaltyPoints(@RequestParam("username") String username) {
+        // Retrieve the user's loyalty points from the ComponentController
+        int loyaltyPoints = componentController.getLoyaltyPoints(username);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Loyalty points: " + loyaltyPoints);
+    }
+}

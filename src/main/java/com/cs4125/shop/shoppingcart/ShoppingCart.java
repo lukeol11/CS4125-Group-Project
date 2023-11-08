@@ -23,4 +23,9 @@ public class ShoppingCart {
     public List<Component> getComponents() {
         return components;
     }
+
+    public void clearCart() {
+        components.clear();
+    }
+
 }
