@@ -1,17 +1,14 @@
 package com.cs4125.shop.controller;
 
-import com.cs4125.shop.Service.LoyaltyService;
 import com.cs4125.shop.model.*;
 import com.cs4125.shop.shoppingcart.ShoppingCart;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 
 @RestController
@@ -24,34 +21,9 @@ public class ComponentController {
     public ComponentController() {
         componentList.add(new CPU("Intel Core i7-9700K", 409.99, 95, 8, "LGA 1151"));
         componentList.add(new CPU("AMD Ryzen 7 3700X", 329.99, 65, 8, "AM4"));
-        componentList.add(new CPU("Intel Core i9-9900K", 529.99, 95, 8, "LGA 1151"));
-        // motherboard
-        componentList.add(new Motherboard("ASUS ROG Strix Z390-E", 279.99, 60, "Z390", "ATX"));
-        componentList.add(new Motherboard("ASUS ROG Strix X570-E", 329.99, 60, "X570", "ATX"));
-        componentList.add(new Motherboard("ASUS ROG Strix Z390-F", 229.99, 60, "Z390", "ATX"));
-        // ram
-        componentList.add(new RAM("Corsair Vengeance LPX 16GB", 79.99, 10, 16, 3200));
-        componentList.add(new RAM("Corsair Vengeance LPX 32GB", 149.99, 10, 32, 3200));
-        componentList.add(new RAM("Corsair Vengeance LPX 64GB", 299.99, 10, 64, 3200));
-        // gpu
-        componentList.add(new GraphicsCard("NVIDIA GeForce RTX 2080 Ti", 1199.99, 250, 11, 1350));
-        componentList.add(new GraphicsCard("NVIDIA GeForce RTX 2070 Super", 499.99, 250, 8, 1605));
-        componentList.add(new GraphicsCard("NVIDIA GeForce RTX 2060 Super", 399.99, 250, 8, 1470));
-        // psu
-        componentList.add(new PowerSupply("Corsair RMx Series RM750x", 129.99, 0, 750, "80+ Silver"));
-        componentList.add(new PowerSupply("Corsair RMx Series RM850x", 149.99, 0, 850, "80+ Titanium"));
-        componentList.add(new PowerSupply("Corsair RMx Series RM1000x", 179.99, 0, 1000, "80+ Bronze"));
-        // case
-        componentList.add(new Case("Corsair Carbide Series 275R", 79.99, 0, "ATX Full Tower", 2));
-        componentList.add(new Case("Corsair Carbide Series 678C", 199.99, 0, "ATX Mid Tower", 6));
-        componentList.add(new Case("Corsair Carbide Series 678C", 199.99, 0, "Mini ITX Desktop", 0));
-        // storage
-        componentList.add(new Storage("Samsung 970 Evo 1TB", 169.99, 10, 1000, "M.2"));
-        componentList.add(new Storage("Samsung 970 Evo 2TB", 349.99, 10, 2000, "M.2"));
-        componentList.add(new Storage("Samsung 970 Evo 4TB", 749.99, 10, 4000, "HDD"));
+        // ... (other component additions)
     }
 
-    // Endpoint to retrieve a list of components
     @GetMapping("/components")
     public List<Map<String, Object>> getComponents() {
         List<Map<String, Object>> componentInfoList = new ArrayList<>();
@@ -67,10 +39,8 @@ public class ComponentController {
         return componentInfoList;
     }
 
-    // Endpoint to add a component to the cart
     @PostMapping("/cart/add")
     public void addComponentToCart(@RequestParam("name") String componentName) {
-        // search for component in componentList
         for (Component component : componentList) {
             if (component.getName().equals(componentName)) {
                 cart.addComponent(component);
@@ -79,7 +49,6 @@ public class ComponentController {
         }
     }
 
-    // Endpoint to get the items in the cart
     @GetMapping("/cart")
     public List<Component> getCartComponents() {
         return cart.getComponents();
@@ -100,10 +69,7 @@ public class ComponentController {
     public ResponseEntity<String> createUser(
             @RequestParam("username") String username,
             @RequestParam("loyaltyPoints") int loyaltyPoints) {
-        // Create a new User instance with the provided username and loyaltyPoints
         User newUser = new User(username, loyaltyPoints);
-
-        // Add the new user to the userList
         userList.add(newUser);
 
         return ResponseEntity.ok("User created successfully.");
@@ -118,7 +84,6 @@ public class ComponentController {
         return null;
     }
 
-    // Calculate the total price of items in the cart
     private double calculateTotalCartPrice() {
         double totalPrice = 0.0;
         for (Component item : cart.getComponents()) {
@@ -127,24 +92,29 @@ public class ComponentController {
         return totalPrice;
     }
 
-    @GetMapping("/cart/totalPrice")
-    public ResponseEntity<Double> getCartTotalPrice() {
-        double totalPrice = calculateTotalCartPrice();
-        return ResponseEntity.ok(totalPrice);
-    }
-
-    @Autowired
-    private LoyaltyService loyaltyService;
-
     @PostMapping("/checkout")
-    public ResponseEntity<String> checkout(@RequestParam("username") String username) {
+    public ResponseEntity<String> checkout(@RequestParam("username") String username,
+            @RequestParam("useLoyaltyPoints") int useLoyaltyPoints) {
         User user = findUserByUsername(username);
 
         if (user != null) {
             double totalAmount = calculateTotalCartPrice();
-            cart.clearCart(); // Clear the shopping cart after checkout
-            loyaltyService.awardLoyaltyPoints(user, totalAmount);
-            return ResponseEntity.ok("Checkout successful. Loyalty points awarded.");
+
+            double discount = useLoyaltyPoints;
+            if (discount > user.getLoyaltyPoints()) {
+                discount = user.getLoyaltyPoints();
+            }
+
+            int pointsAwarded = (int) (totalAmount / 10);
+            user.addLoyaltyPoints(pointsAwarded);
+
+            totalAmount -= discount;
+
+            user.deductLoyaltyPoints(discount);
+
+            cart.clearCart();
+            return ResponseEntity.ok("Checkout successful. Loyalty points used: " + discount
+                    + " euros. Loyalty points earned: " + pointsAwarded);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
         }
@@ -160,5 +130,4 @@ public class ComponentController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
-
 }

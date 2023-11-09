@@ -20,4 +20,12 @@ public class User {
     public void addLoyaltyPoints(int points) {
         loyaltyPoints += points;
     }
+
+    public void deductLoyaltyPoints(double discount) {
+        if (discount >= 0 && discount <= loyaltyPoints) {
+            loyaltyPoints -= discount;
+        } else {
+            throw new IllegalArgumentException("Invalid discount amount.");
+        }
+    }
 }
