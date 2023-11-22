@@ -1,6 +1,8 @@
 package com.cs4125.shop.model;
 
-public class CPU extends Component {
+import com.cs4125.shop.model.factory.CPUFactory;
+
+public class CPU extends Component implements CPUFactory {
     private int cores;
     private String socketCPU;
     private int speedCPU;

@@ -3,8 +3,9 @@ package com.cs4125.shop.model;
 import java.util.List;
 
 import com.cs4125.shop.shoppingcart.ShoppingCart;
+import com.cs4125.shop.model.factory.PowerSupplyFactory;
 
-public class PowerSupply extends Component {
+public class PowerSupply extends Component implements PowerSupplyFactory {
     private int wattageOutput;
     private String efficiencyRating;
 

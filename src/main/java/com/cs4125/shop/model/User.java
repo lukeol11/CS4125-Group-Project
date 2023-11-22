@@ -1,6 +1,8 @@
-package com.cs4125.shop.controller;
+package com.cs4125.shop.model;
 
-public class User {
+import com.cs4125.shop.model.factory.UserFactory;
+
+public class User implements UserFactory {
     private String username;
     private int loyaltyPoints;
 
