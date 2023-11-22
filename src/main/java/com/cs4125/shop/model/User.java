@@ -1,4 +1,4 @@
-package com.cs4125.shop.controller;
+package com.cs4125.shop.model;
 
 public class User {
     private String username;

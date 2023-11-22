@@ -5,6 +5,7 @@ import com.cs4125.shop.shoppingcart.ShoppingCart;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.cs4125.shop.services.CartTotal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,21 +85,14 @@ public class ComponentController {
         return null;
     }
 
-    private double calculateTotalCartPrice() {
-        double totalPrice = 0.0;
-        for (Component item : cart.getComponents()) {
-            totalPrice += item.getPrice();
-        }
-        return totalPrice;
-    }
-
     @PostMapping("/checkout")
     public ResponseEntity<String> checkout(@RequestParam("username") String username,
             @RequestParam("useLoyaltyPoints") int useLoyaltyPoints) {
         User user = findUserByUsername(username);
 
         if (user != null) {
-            double totalAmount = calculateTotalCartPrice();
+            CartTotal cartTotal = new CartTotal(cart); // Create an instance of CartTotal
+            double totalAmount = cartTotal.calculateTotalCartPrice();
 
             double discount = useLoyaltyPoints;
             if (discount > user.getLoyaltyPoints()) {
