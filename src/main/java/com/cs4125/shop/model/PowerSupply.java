@@ -1,6 +1,8 @@
 package com.cs4125.shop.model;
 
-public class PowerSupply extends Component {
+import com.cs4125.shop.model.factory.PowerSupplyFactory;
+
+public class PowerSupply extends Component implements PowerSupplyFactory {
     private int wattageOutput;
     private String efficiencyRating;
 
