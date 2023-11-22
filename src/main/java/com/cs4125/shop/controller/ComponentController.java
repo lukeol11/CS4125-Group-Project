@@ -148,8 +148,6 @@ public class ComponentController {
             int pointsAwarded = (int) (totalAmount / 10);
             user.addLoyaltyPoints(pointsAwarded);
 
-            totalAmount -= discount;
-
             user.deductLoyaltyPoints(discount);
 
             cart.clearCart();
