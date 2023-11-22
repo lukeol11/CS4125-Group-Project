@@ -1,7 +1,5 @@
 package com.cs4125.shop.model;
 
-import java.util.List;
-
 public class Storage extends Component {
     private int capacity;
     private String type; // e.g., HDD, SSD, NVMe
@@ -20,7 +18,7 @@ public class Storage extends Component {
         return type;
     }
 
-    public boolean isCompatibleWith(List<Component> component) {
+    public boolean isCompatibleWith(Component component) {
         if (component instanceof Motherboard) {
             //Compatibility based on Storage Types
             String storageType = ((Motherboard) component).getStorageType();

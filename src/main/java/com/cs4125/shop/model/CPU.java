@@ -1,7 +1,5 @@
 package com.cs4125.shop.model;
 
-import java.util.List;
-
 public class CPU extends Component {
     private int cores;
     private String socketCPU;
@@ -27,7 +25,7 @@ public class CPU extends Component {
         return speedCPU;
     }
 
-    public boolean isCompatibleWith(List<Component> component) {
+    public boolean isCompatibleWith(Component component) {
         if(component instanceof Motherboard) {
             String socket = ((Motherboard) component).getSocket();
             return this.socketCPU.equals(socket);

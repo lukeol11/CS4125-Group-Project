@@ -1,7 +1,5 @@
 package com.cs4125.shop.model;
 
-import java.util.List;
-
 public class GraphicsCard extends Component {
     private int memory;
     private int baseClock;
@@ -27,7 +25,7 @@ public class GraphicsCard extends Component {
     }
 
     //Check if the graphics card can fit in the case
-    public boolean isCompatibleWith(List<Component> dimension) {
+    public boolean isCompatibleWith(Component dimension) {
         if (dimension instanceof Case) {
             int dime = ((Case) dimension).getDime();
             return this.GPULength <= dime;

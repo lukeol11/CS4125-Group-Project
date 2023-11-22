@@ -2,8 +2,7 @@ package com.cs4125.shop.model;
 
 import java.util.List;
 
-//import org.hibernate.mapping.List;
-// import com.cs4125.shop.shoppingcart.ShoppingCart;
+import com.cs4125.shop.shoppingcart.ShoppingCart;
 
 public class PowerSupply extends Component {
     private int wattageOutput;
@@ -23,10 +22,10 @@ public class PowerSupply extends Component {
         return efficiencyRating;
     }
 
-    // @Override
-    public boolean isCompatibleWith(List<Component> comp) {
+    public boolean isCompatibleWith(ShoppingCart shoppingCart) {
         int totalWattage = 0;
-        for (Component component : comp) {
+        List<Component> cart = shoppingCart.getComponents();
+        for (Component component : cart) {
             // Ensure that only components with a wattage value are considered
             if (component.getWattage() != null) {
                 totalWattage += component.getWattage();
@@ -34,5 +33,9 @@ public class PowerSupply extends Component {
         }
         System.out.println("Run PSU");
         return totalWattage <= wattageOutput;
+    }
+
+    public boolean isCompatibleWith(Component component){
+        return false;
     }
 }

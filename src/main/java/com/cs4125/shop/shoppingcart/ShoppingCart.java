@@ -28,4 +28,12 @@ public class ShoppingCart {
         components.clear();
     }
 
+    public boolean isCompatibleWithCart(Component component) {
+        for (Component existingComponent : components) {
+            if (!component.isCompatibleWith(existingComponent)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

@@ -16,7 +16,6 @@ import java.util.Map;
 public class ComponentController {
     private List<Component> componentList = new ArrayList<>();
     private ShoppingCart cart = new ShoppingCart();
-    private Compatibility compatibility = new Compatibility();
     private List<User> userList = new ArrayList<>();
 
     public ComponentController() {
@@ -70,12 +69,13 @@ public class ComponentController {
         for (Component component : componentList) {
             if (component.getName().equals(componentName)) {
                 //check compatibility
-                if(compatibility.isCompatibleWith(componentList, cart)) {
+                if(cart.isCompatibleWithCart(component)) {
                     System.out.println("before");
                     cart.addComponent(component);
                     System.out.println("Run in the Controller yuppa");
-                    } else {
-                        System.out.println("Run");
+                } else {
+                    // Throw a exception
+                    throw new IllegalArgumentException("Component is not compatible with the relevant items in the cart");
                 }
             }
         }

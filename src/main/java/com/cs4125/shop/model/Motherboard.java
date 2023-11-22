@@ -1,8 +1,5 @@
 package com.cs4125.shop.model;
 
-// import org.hibernate.mapping.List;
-import java.util.List;
-
 public class Motherboard extends Component {
     private String chipset;
     private String formFactor;
@@ -34,7 +31,7 @@ public class Motherboard extends Component {
         return storageType;
     }
 
-    public boolean isCompatibleWith(List<Component> component) {
+    public boolean isCompatibleWith(Component component) {
         if(component instanceof CPU) {
             //Compatibility based on Socket Type
             String socketCPU = ((CPU) component).getSocketCPU();
