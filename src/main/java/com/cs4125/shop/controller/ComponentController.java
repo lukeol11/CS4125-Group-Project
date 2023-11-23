@@ -2,9 +2,13 @@ package com.cs4125.shop.controller;
 
 import com.cs4125.shop.model.*;
 import com.cs4125.shop.shoppingcart.ShoppingCart;
+
+// import org.hibernate.engine.internal.Collections;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,22 +68,23 @@ public class ComponentController {
         return componentInfoList;
     }
 
+    // Add component to cart if it checks out
     @PostMapping("/cart/add")
     public void addComponentToCart(@RequestParam("name") String componentName) {
-        for (Component component : componentList) {
-            if (component.getName().equals(componentName)) {
-                //check compatibility
-                if(cart.isCompatibleWithCart(component)) {
-                    System.out.println("before");
-                    cart.addComponent(component);
-                    System.out.println("Run in the Controller yuppa");
-                } else {
-                    // Throw a exception
-                    throw new IllegalArgumentException("Component is not compatible with the relevant items in the cart");
-                }
+    for (Component component : componentList) {
+        if (component.getName().equals(componentName)) {
+            // Check compatibility
+            if (cart.checkCompatibility(Collections.singletonList(component), component)) {
+                System.out.println("before");
+                cart.addComponent(component);
+                System.out.println("Run in the Controller yuppa");
+            } else {
+                System.out.println("Component is not compatible with the relevant items in the cart");
             }
         }
     }
+}
+
 
     @GetMapping("/cart")
     public List<Component> getCartComponents() {
