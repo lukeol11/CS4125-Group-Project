@@ -1,6 +1,8 @@
 package com.cs4125.shop.model;
 
-public class User {
+import com.cs4125.shop.model.factory.UserFactory;
+
+public class User implements UserFactory {
     private String username;
     private String email;
     private String hashedPassword;
@@ -27,6 +29,7 @@ public class User {
     public String getUsername() {
         return username;
     }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -53,5 +56,13 @@ public class User {
 
     public void addLoyaltyPoints(int points) {
         loyaltyPoints += points;
+    }
+
+    public void deductLoyaltyPoints(double discount) {
+        if (discount >= 0 && discount <= loyaltyPoints) {
+            loyaltyPoints -= discount;
+        } else {
+            throw new IllegalArgumentException("Invalid discount amount.");
+        }
     }
 }
