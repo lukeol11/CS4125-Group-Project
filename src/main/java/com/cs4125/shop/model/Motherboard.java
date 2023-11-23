@@ -1,6 +1,8 @@
 package com.cs4125.shop.model;
 
-public class Motherboard extends Component {
+import com.cs4125.shop.model.factory.MotherboardFactory;
+
+public class Motherboard extends Component implements MotherboardFactory {
     private String chipset;
     private String formFactor;
 

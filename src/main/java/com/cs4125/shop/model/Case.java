@@ -1,6 +1,8 @@
 package com.cs4125.shop.model;
 
-public class Case extends Component {
+import com.cs4125.shop.model.factory.CaseFactory;
+
+public class Case extends Component implements CaseFactory {
     private String formFactor;
     private int driveBays;
 
