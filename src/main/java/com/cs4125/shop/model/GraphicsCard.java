@@ -1,8 +1,14 @@
 package com.cs4125.shop.model;
 
+<<<<<<< HEAD
 import java.util.List;
 
 public class GraphicsCard extends Component {
+=======
+import com.cs4125.shop.model.factory.GraphicsCardFactory;
+
+public class GraphicsCard extends Component implements GraphicsCardFactory {
+>>>>>>> master
     private int memory;
     private int baseClock;
     private int GPULength;
