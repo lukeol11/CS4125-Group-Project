@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCConfigXpress - User Registration</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1em;
+            text-align: center;
+        }
+
+        section {
+            max-width: 400px;
+            margin: 2em auto;
+            padding: 2em;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5em;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.5em;
+            margin-bottom: 1em;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #333;
+            color: #fff;
+            padding: 0.8em;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .error-message {
+            color: #ff0000;
+            margin-bottom: 1em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>PCConfigXpress</h1>
+    </header>
+    
+    <section>
+        <h2>User Registration</h2>
+        <div th:if="${errorMessage}" class="error-message">
+            <p th:text="${errorMessage}"></p>
+        </div>
+        
+        <form action="/register" method="post" th:action="@{/register}">
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" value=""  th:required="required">
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" th:required="required">
+            
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" th:required="required">
+            
+            <button type="submit">Register</button>
+        </form>
+    </section>
+</body>
+</html>
