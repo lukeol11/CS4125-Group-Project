@@ -20,4 +20,8 @@ public class CPU extends Component implements CPUFactory {
     public String getSocket() {
         return socket;
     }
+
+    public String getSocketAndCores() {
+        return socket + " " + cores + " cores";
+    }
 }
