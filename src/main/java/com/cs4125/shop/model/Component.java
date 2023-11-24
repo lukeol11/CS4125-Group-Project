@@ -1,6 +1,8 @@
 package com.cs4125.shop.model;
 
-public class Component {
+import java.util.List;
+
+public abstract class Component {
     private String name;
     private double price;
     private Integer wattage;
@@ -24,4 +26,6 @@ public class Component {
     public Integer getWattage() {
         return this.wattage;
     }
+
+    public abstract boolean isCompatibleWith(List<Component> component);
 }

@@ -25,7 +25,9 @@ import java.util.Map;
 public class ComponentController {
     private List<Component> componentList = new ArrayList<>();
     private ShoppingCart cart = new ShoppingCart();
+    private Compatibility compatibility = new Compatibility();
     private List<User> userList = new ArrayList<>();
+
     private UserFactory userFactory = new UserFactory() {
     };
     private CPUFactory cpuFactory = new CPUFactory() {
@@ -44,27 +46,36 @@ public class ComponentController {
     };
 
     public ComponentController() {
-        componentList.add(cpuFactory.createComponent("Intel Core i7-9700K", 409.99, 95, 8, "LGA 1151"));
-        componentList.add(cpuFactory.createComponent("AMD Ryzen 7 3700X", 329.99, 65, 8, "AM4"));
-        componentList.add(cpuFactory.createComponent("Intel Core i9-9900K", 529.99, 95, 8, "LGA 1151"));
-        componentList.add(motherboardFactory.createComponent("ASUS ROG Strix Z390-E", 279.99, 60, "Z390", "ATX"));
-        componentList.add(motherboardFactory.createComponent("ASUS ROG Strix X570-E", 329.99, 60, "X570", "ATX"));
-        componentList.add(motherboardFactory.createComponent("ASUS ROG Strix Z390-F", 229.99, 60, "Z390", "ATX"));
+        componentList.add(cpuFactory.createComponent("Intel Core i7-9700K", 409.99, 95, 8, "LGA 1151", 3200));
+        componentList.add(cpuFactory.createComponent("AMD Ryzen 7 3700X", 329.99, 65, 8, "AM4", 3200));
+        componentList.add(cpuFactory.createComponent("Intel Core i9-9900K", 529.99, 95, 8, "LGA 1151", 3600));
+        componentList.add(motherboardFactory.createComponent("ASUS ROG Strix Z390-E", 279.99, 60, "Z390", "ATX",
+                "LGA 1151", "M.2"));
+        componentList.add(
+                motherboardFactory.createComponent("ASUS ROG Strix X570-E", 329.99, 60, "X570", "ATX", "AM4", "M.2"));
+        componentList.add(motherboardFactory.createComponent("ASUS ROG Strix Z390-F", 229.99, 60, "Z390", "ATX",
+                "LGA 1151", "HDD"));
         componentList.add(ramFactory.createComponent("Corsair Vengeance LPX 16GB", 79.99, 10, 16, 3200));
         componentList.add(ramFactory.createComponent("Corsair Vengeance LPX 32GB", 149.99, 10, 32, 3200));
-        componentList.add(ramFactory.createComponent("Corsair Vengeance LPX 64GB", 299.99, 10, 64, 3200));
-        componentList.add(graphicsCardFactory.createComponent("NVIDIA GeForce RTX 2080 Ti", 1199.99, 250, 11, 1350));
-        componentList.add(graphicsCardFactory.createComponent("NVIDIA GeForce RTX 2070 Super", 499.99, 250, 8, 1605));
-        componentList.add(graphicsCardFactory.createComponent("NVIDIA GeForce RTX 2060 Super", 399.99, 250, 8, 1470));
+        componentList.add(ramFactory.createComponent("Corsair Vengeance LPX 64GB", 299.99, 10, 64, 3600));
+        componentList
+                .add(graphicsCardFactory.createComponent("NVIDIA GeForce RTX 2080 Ti", 1199.99, 250, 11, 1350, 135));
+        componentList
+                .add(graphicsCardFactory.createComponent("NVIDIA GeForce RTX 2070 Super", 499.99, 250, 8, 1605, 135));
+        componentList
+                .add(graphicsCardFactory.createComponent("NVIDIA GeForce RTX 2060 Super", 399.99, 250, 8, 1470, 100));
         componentList
                 .add(powerSupplyFactory.createComponent("Corsair RMx Series RM750x", 129.99, 0, 750, "80+ Silver"));
         componentList
                 .add(powerSupplyFactory.createComponent("Corsair RMx Series RM850x", 149.99, 0, 850, "80+ Titanium"));
         componentList
                 .add(powerSupplyFactory.createComponent("Corsair RMx Series RM1000x", 179.99, 0, 1000, "80+ Bronze"));
-        componentList.add(caseFactory.createComponent("Corsair Carbide Series 275R", 79.99, 0, "ATX Full Tower", 2));
-        componentList.add(caseFactory.createComponent("Corsair Carbide Series 678C", 199.99, 0, "ATX Mid Tower", 6));
-        componentList.add(caseFactory.createComponent("Corsair Carbide Series 678C", 199.99, 0, "Mini ITX Desktop", 0));
+        componentList
+                .add(caseFactory.createComponent("Corsair Carbide Series 275R", 79.99, 0, "ATX Full Tower", 2, 135));
+        componentList
+                .add(caseFactory.createComponent("Corsair Carbide Series 678C", 199.99, 0, "ATX Mid Tower", 6, 135));
+        componentList
+                .add(caseFactory.createComponent("Corsair Carbide Series 678C", 199.99, 0, "Mini ITX Desktop", 0, 100));
         componentList.add(storageFactory.createComponent("Samsung 970 Evo 1TB", 169.99, 10, 1000, "M.2"));
         componentList.add(storageFactory.createComponent("Samsung 970 Evo 2TB", 349.99, 10, 2000, "M.2"));
         componentList.add(storageFactory.createComponent("Samsung 970 Evo 4TB", 749.99, 10, 4000, "HDD"));
@@ -90,8 +101,14 @@ public class ComponentController {
     public void addComponentToCart(@RequestParam("name") String componentName) {
         for (Component component : componentList) {
             if (component.getName().equals(componentName)) {
-                cart.addComponent(component);
-                break;
+                // check compatibility
+                if (compatibility.isCompatibleWith(componentList, cart)) {
+                    System.out.println("before");
+                    cart.addComponent(component);
+                    System.out.println("Run in the Controller yuppa");
+                } else {
+                    System.out.println("Run");
+                }
             }
         }
     }

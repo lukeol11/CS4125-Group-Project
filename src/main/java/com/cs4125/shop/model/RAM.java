@@ -1,5 +1,7 @@
 package com.cs4125.shop.model;
 
+import java.util.List;
+
 import com.cs4125.shop.model.factory.RAMFactory;
 
 public class RAM extends Component implements RAMFactory {
@@ -18,5 +20,14 @@ public class RAM extends Component implements RAMFactory {
 
     public int getSpeed() {
         return speed;
+    }
+
+    public boolean isCompatibleWith(List<Component> component) {
+        if (component instanceof CPU) {
+            int speedCPU = ((CPU) component).getSpeedCPU();
+            return this.speed == speedCPU;
+        }
+        System.out.println("Run RAM");
+        return true;
     }
 }
