@@ -149,27 +149,41 @@ public class ComponentController {
     }
 
     @PostMapping("/checkout")
-    public ResponseEntity<String> checkout(@RequestParam("username") String username,
-            @RequestParam("useLoyaltyPoints") int useLoyaltyPoints) {
+    public ResponseEntity<String> checkout(
+            @RequestParam("username") String username,
+            @RequestParam("useLoyaltyPoints") int useLoyaltyPoints,
+            @RequestParam("usePercentageDiscount") double usePercentageDiscount) {
         User user = findUserByUsername(username);
 
         if (user != null) {
             CartTotal cartTotal = new CartTotal(cart); // Create an instance of CartTotal
             double totalAmount = cartTotal.calculateTotalCartPrice();
 
-            double discount = useLoyaltyPoints;
-            if (discount > user.getLoyaltyPoints()) {
-                discount = user.getLoyaltyPoints();
-            }
+            // Create instances of discount classes
+            Discount loyaltyPointsDiscount = new LoyaltyPointsDiscount(useLoyaltyPoints);
+            Discount percentageDiscount = new PercentageDiscount(usePercentageDiscount);
 
-            int pointsAwarded = (int) (totalAmount / 10);
+            // Create decorators and chain them
+            Discount loyaltyPointsWithAdditionalDiscount = new LoyaltyPointsDiscountDecorator(loyaltyPointsDiscount, 5);
+            Discount finalDiscount = new PercentageDiscountDecorator(loyaltyPointsWithAdditionalDiscount, 10.0);
+
+            // Apply the final discount
+            double discount = finalDiscount.applyDiscount(totalAmount);
+
+            // Use percentageDiscount in a meaningful way
+            double percentageDiscountAmount = percentageDiscount.applyDiscount(totalAmount);
+            double discountedTotalAmount = totalAmount - percentageDiscountAmount;
+
+            // Update loyalty points and other logic as needed
+            int pointsAwarded = (int) (discountedTotalAmount / 10);
             user.addLoyaltyPoints(pointsAwarded);
 
             user.deductLoyaltyPoints(discount);
 
             cart.clearCart();
-            return ResponseEntity.ok("Checkout successful. Loyalty points used: " + discount
-                    + " euros. Loyalty points earned: " + pointsAwarded);
+            return ResponseEntity.ok("Checkout successful. Discount applied: " + discount
+                    + " euros. Loyalty points earned: " + pointsAwarded
+                    + ". Percentage discount applied: " + percentageDiscountAmount);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
         }

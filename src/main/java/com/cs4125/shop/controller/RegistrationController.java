@@ -24,18 +24,17 @@ public class RegistrationController {
 
     @PostMapping("/register")
     public String registerUser(
-        @RequestParam("email") String email,
-        @RequestParam("password") String password,
-        @RequestParam("confirmPassword") String confirmPassword,
-        Model model,
-        RedirectAttributes redirectAttributes
-    ) {
+            @RequestParam("email") String email,
+            @RequestParam("password") String password,
+            @RequestParam("confirmPassword") String confirmPassword,
+            Model model,
+            RedirectAttributes redirectAttributes) {
         // Create a User object from the input data.
         User user = new User(email, password, 0);
 
         // Perform registration and validation logic.
         boolean registrationSuccess = registrationService.registerUser(user, confirmPassword);
-        System.out.println("registrationSuccess--->"+registrationSuccess);
+        System.out.println("registrationSuccess--->" + registrationSuccess);
 
         if (registrationSuccess) {
             redirectAttributes.addFlashAttribute("successMessage", "Registration successful!");
