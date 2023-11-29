@@ -24,6 +24,8 @@ import java.util.Map;
 @RequestMapping("/api")
 public class ComponentController {
     private List<Component> componentList = new ArrayList<>();
+    private List<Discount> discounts = new ArrayList<>();
+
     private ShoppingCart cart = new ShoppingCart();
     private Compatibility compatibility = new Compatibility();
     private List<User> userList = new ArrayList<>();
@@ -80,6 +82,10 @@ public class ComponentController {
         componentList.add(storageFactory.createComponent("Samsung 970 Evo 2TB", 349.99, 10, 2000, "M.2"));
         componentList.add(storageFactory.createComponent("Samsung 970 Evo 4TB", 749.99, 10, 4000, "HDD"));
 
+    }
+
+    public void addDiscount(Discount discount) {
+        discounts.add(discount);
     }
 
     @GetMapping("/components")
@@ -156,9 +162,10 @@ public class ComponentController {
         User user = findUserByUsername(username);
 
         if (user != null) {
-            CartTotal cartTotal = new CartTotal(cart); // Create an instance of CartTotal
+            CartTotal cartTotal = new CartTotal(cart);
             double totalAmount = cartTotal.calculateTotalCartPrice();
 
+<<<<<<< HEAD
             // Create instances of discount classes
             Discount loyaltyPointsDiscount = new LoyaltyPointsDiscount(useLoyaltyPoints);
             Discount percentageDiscount = new PercentageDiscount(usePercentageDiscount);
@@ -173,6 +180,13 @@ public class ComponentController {
             // Use percentageDiscount in a meaningful way
             double percentageDiscountAmount = percentageDiscount.applyDiscount(totalAmount);
             double discountedTotalAmount = totalAmount - percentageDiscountAmount;
+=======
+            // Applying loyalty points discount
+            double discount = useLoyaltyPoints;
+            if (discount > user.getLoyaltyPoints()) {
+                discount = user.getLoyaltyPoints();
+            }
+>>>>>>> d5a9878 (added discounts)
 
             // Update loyalty points and other logic as needed
             int pointsAwarded = (int) (discountedTotalAmount / 10);
@@ -180,10 +194,27 @@ public class ComponentController {
 
             user.deductLoyaltyPoints(discount);
 
+            // Applying dynamic discounts
+            double discountedAmount = totalAmount;
+
+            for (Discount discountObj : discounts) {
+                if (discountObj.isApplicable()) {
+                    discountedAmount = discountObj.applyDiscount(discountedAmount);
+                    System.out.println("Applied Discount: " + discountObj.getDescription());
+                }
+            }
+
             cart.clearCart();
+<<<<<<< HEAD
             return ResponseEntity.ok("Checkout successful. Discount applied: " + discount
                     + " euros. Loyalty points earned: " + pointsAwarded
                     + ". Percentage discount applied: " + percentageDiscountAmount);
+=======
+
+            return ResponseEntity.ok("Checkout successful. Loyalty points used: " + discount
+                    + " euros. Loyalty points earned: " + pointsAwarded +
+                    "\nTotal Amount after Discounts: " + discountedAmount);
+>>>>>>> d5a9878 (added discounts)
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
         }
