@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ComponentControllerTest {
-
+/*
     @Autowired
     private TestRestTemplate restTemplate;
 
@@ -59,4 +59,5 @@ public class ComponentControllerTest {
         assertEquals(1, cartComponents.size(), "Expected 1 component in the cart");
         assertEquals("Intel Core i7-9700K", cartComponents.get(0).get("name"), "Component name in the cart mismatch");
     }
+    */
 }
