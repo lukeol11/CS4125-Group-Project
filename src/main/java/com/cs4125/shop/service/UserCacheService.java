@@ -49,7 +49,7 @@ public class UserCacheService {
         } catch (FileNotFoundException e) {
             // If the file doesn't exist, it will be created when saving users
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 }
