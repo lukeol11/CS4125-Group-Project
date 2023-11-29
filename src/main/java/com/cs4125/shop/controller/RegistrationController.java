@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.cs4125.shop.service.RegistrationResult;
+import com.cs4125.shop.model.User;
 import com.cs4125.shop.service.RegistrationService;
 
 @Controller
@@ -24,36 +24,25 @@ public class RegistrationController {
 
     @PostMapping("/register")
     public String registerUser(
-            @RequestParam("email") String email,
-            @RequestParam("password") String password,
-            @RequestParam("confirmPassword") String confirmPassword,
-            Model model,
-            RedirectAttributes redirectAttributes
+        @RequestParam("email") String email,
+        @RequestParam("password") String password,
+        @RequestParam("confirmPassword") String confirmPassword,
+        Model model,
+        RedirectAttributes redirectAttributes
     ) {
-        // Perform registration and validation logic.
-        RegistrationResult registrationResult = registrationService.registerUser(email, password, confirmPassword);
+        // Create a User object from the input data.
+        User user = new User(email, password, 0);
 
-        if (registrationResult == RegistrationResult.SUCCESS) {
+        // Perform registration and validation logic.
+        boolean registrationSuccess = registrationService.registerUser(user, confirmPassword);
+        System.out.println("registrationSuccess--->"+registrationSuccess);
+
+        if (registrationSuccess) {
             redirectAttributes.addFlashAttribute("successMessage", "Registration successful!");
             return "redirect:/login"; // Redirect to the login page.
         } else {
-            model.addAttribute("errorMessage", getErrorMessage(registrationResult));
+            model.addAttribute("errorMessage", "Registration failed. Please check your input.");
             return "register"; // Return to the registration form with an error message.
-        }
-    }
-
-    private String getErrorMessage(RegistrationResult registrationResult) {
-        switch (registrationResult) {
-            case INVALID_EMAIL:
-                return "Invalid email address.";
-            case INVALID_PASSWORD:
-                return "Invalid password.";
-            case EMAIL_ALREADY_REGISTERED:
-                return "Email is already registered.";
-            case PASSWORDS_DO_NOT_MATCH:
-                return "Passwords do not match.";
-            default:
-                return "Registration failed. Please check your input.";
         }
     }
 }

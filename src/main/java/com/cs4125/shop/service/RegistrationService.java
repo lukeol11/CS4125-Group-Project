@@ -2,7 +2,6 @@ package com.cs4125.shop.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.cs4125.shop.model.User;
 import com.cs4125.shop.validation.EmailValidationRule;
@@ -20,37 +19,32 @@ public class RegistrationService {
     @Autowired
     private PasswordValidationRule passwordValidationRule;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    public RegistrationResult registerUser(String email, String password, String confirmPassword) {
+    public boolean registerUser(User user, String confirmPassword) {
         // Perform email validation.
-        if (!emailValidationRule.validateEmail(email)) {
-            return RegistrationResult.INVALID_EMAIL;
+        if (!emailValidationRule.validateEmail(user.getEmail())) {
+            return false; // Email validation failed.
         }
 
-        // Perform password validation on the raw password.
-        if (!passwordValidationRule.validatePassword(password)) {
-            return RegistrationResult.INVALID_PASSWORD;
+        // Perform password validation.
+        if (!passwordValidationRule.validatePassword(user.getHashedPassword())) {
+            return false; // Password validation failed.
         }
 
         // Check if the email is already registered.
-        if (userCacheService.getUserByEmail(email) != null) {
-            return RegistrationResult.EMAIL_ALREADY_REGISTERED;
+        if (userCacheService.getUserByEmail(user.getEmail()) != null) {
+            return false; // Email is already registered.
         }
-
-        // Hash the password before saving.
-        String hashedPassword = passwordEncoder.encode(password);
 
         // Check if the passwords match.
-        if (!passwordEncoder.matches(confirmPassword, hashedPassword)) {
-            return RegistrationResult.PASSWORDS_DO_NOT_MATCH;
+        if (!user.getHashedPassword().equals(confirmPassword)) {
+            return false; // Passwords do not match.
         }
 
-        // Register the user.
-        userCacheService.registerUser(new User(email, hashedPassword, 0));
+        user.setHashedPassword(user.getHashedPassword());
 
-        return RegistrationResult.SUCCESS;
+        // Register the user.
+        userCacheService.registerUser(user);
+
+        return true; // Registration successful.
     }
 }
-
