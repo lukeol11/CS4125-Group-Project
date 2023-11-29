@@ -17,7 +17,8 @@ public class LoginController {
     private LoginService loginService;
 
     @GetMapping("/login")
-    public String showLoginForm() {
+    public String showLoginForm(Model model) {
+        model.addAttribute("errorMessage", ""); // Initialize error message
         return "login"; // Return the login form template.
     }
 
@@ -32,7 +33,7 @@ public class LoginController {
 
         if (user != null) {
             // Successful login.
-        	System.out.println("User in session: "+user.getEmail());
+            System.out.println("User in session: " + user.getEmail());
             return "homepage"; // Redirect to the dashboard or any other page.
         } else {
             model.addAttribute("errorMessage", "Invalid email or password. Please try again.");
