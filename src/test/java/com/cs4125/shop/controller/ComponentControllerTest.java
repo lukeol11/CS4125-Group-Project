@@ -61,21 +61,21 @@ public class ComponentControllerTest {
     }
 
     @Test
-    public void testGetLoyaltyPoints() {
-        // Arrange
-        String username = "testUser";
-        int initialLoyaltyPoints = 100;
-        createUser(username, initialLoyaltyPoints);
+public void testGetLoyaltyPoints() {
+    // Arrange
+    String email = "testUser@example.com";
+    int initialLoyaltyPoints = 100;
+    createUser(email, initialLoyaltyPoints);
 
-        // Act
-        ResponseEntity<Integer> responseEntity = restTemplate.getForEntity("/api/getLoyaltyPoints?username={username}",
-                Integer.class, username);
+    // Act
+    ResponseEntity<?> responseEntity = restTemplate.getForEntity("/api/getLoyaltyPoints?email={email}",
+            Object.class, email);
 
-        // Assert
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "HTTP Status should be OK");
-        assertNotNull(responseEntity.getBody(), "Response body should not be null");
-        assertEquals(initialLoyaltyPoints, responseEntity.getBody(), "Loyalty points should match the initial value");
-    }
+    // Assert
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "HTTP Status should be OK");
+    assertNotNull(responseEntity.getBody(), "Response body should not be null");
+    assertEquals(initialLoyaltyPoints, responseEntity.getBody(), "Loyalty points should match the initial value");
+}
 
     private void createUser(String username, int loyaltyPoints) {
         restTemplate.postForEntity("/api/users/create?username={username}&loyaltyPoints={loyaltyPoints}", null,
