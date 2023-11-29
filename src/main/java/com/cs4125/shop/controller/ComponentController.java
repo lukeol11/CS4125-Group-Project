@@ -1,6 +1,7 @@
 package com.cs4125.shop.controller;
 
 import com.cs4125.shop.model.*;
+import com.cs4125.shop.model.User.User;
 import com.cs4125.shop.model.factory.UserFactory;
 import com.cs4125.shop.model.factory.CPUFactory;
 import com.cs4125.shop.model.factory.GraphicsCardFactory;
@@ -79,7 +80,6 @@ public class ComponentController {
         componentList.add(storageFactory.createComponent("Samsung 970 Evo 1TB", 169.99, 10, 1000, "M.2"));
         componentList.add(storageFactory.createComponent("Samsung 970 Evo 2TB", 349.99, 10, 2000, "M.2"));
         componentList.add(storageFactory.createComponent("Samsung 970 Evo 4TB", 749.99, 10, 4000, "HDD"));
-
     }
 
     @GetMapping("/components")
@@ -103,11 +103,11 @@ public class ComponentController {
             if (component.getName().equals(componentName)) {
                 // check compatibility
                 if (compatibility.isCompatibleWith(componentList, cart)) {
-                    System.out.println("before");
+                    System.out.println("Before Adding");
                     cart.addComponent(component);
-                    System.out.println("Run in the Controller yuppa");
+                    System.out.println("Run Added");
                 } else {
-                    System.out.println("Run");
+                    System.out.println("Run Not Added");
                 }
             }
         }

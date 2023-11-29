@@ -1,4 +1,4 @@
-package com.cs4125.shop.model;
+package com.cs4125.shop.model.User;
 
 import com.cs4125.shop.model.factory.UserFactory;
 

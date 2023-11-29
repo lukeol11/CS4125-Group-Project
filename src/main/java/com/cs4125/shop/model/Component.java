@@ -7,7 +7,6 @@ public abstract class Component {
     private double price;
     private Integer wattage;
 
-
     // Constructor for Component class
     public Component(String name, double price, Integer wattage) {
         this.name = name;
@@ -27,5 +26,14 @@ public abstract class Component {
         return this.wattage;
     }
 
-    public abstract boolean isCompatibleWith(List<Component> component);
+    public boolean isCompatibleWith(List<Component> component){
+        boolean match = true;
+
+        for (Component components : component) {
+            if (!components.isCompatibleWith(component)) {
+                match = false;
+            }
+        }
+        return match;
+    }
 }

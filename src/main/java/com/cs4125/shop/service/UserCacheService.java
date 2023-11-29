@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.cs4125.shop.model.User;
+import com.cs4125.shop.model.User.User;
 
 @Service
 public class UserCacheService {

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.cs4125.shop.model.User;
+import com.cs4125.shop.model.User.User;
 import com.cs4125.shop.service.LoginService;
 
 @Controller

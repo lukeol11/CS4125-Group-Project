@@ -3,7 +3,7 @@ package com.cs4125.shop.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cs4125.shop.model.User;
+import com.cs4125.shop.model.User.User;
 import com.cs4125.shop.validation.EmailValidationRule;
 import com.cs4125.shop.validation.PasswordValidationRule;
 

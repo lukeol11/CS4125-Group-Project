@@ -21,13 +21,21 @@ public class Storage extends Component {
     }
 
     public boolean isCompatibleWith(List<Component> component) {
-        if (component instanceof Motherboard) {
+        boolean match = false;
+
+        for (Component components: component) {
+        if (components instanceof Motherboard) {
             //Compatibility based on Storage Types
-            String storageType = ((Motherboard) component).getStorageType();
-            return type.equals(storageType);
+            String storageType = ((Motherboard) components).getStorageType();
+            if (type == storageType) {
+                match = true;
+            } else {
+                return match;
+            }
         }
+    }
         //For all other components return true
         System.out.println("Run Storage");
-        return true;
+        return match;
     }
 }
