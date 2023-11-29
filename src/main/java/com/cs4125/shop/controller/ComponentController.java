@@ -135,7 +135,9 @@ public ResponseEntity<String> checkout(@RequestParam("email") String email,
         double totalAmount = cartTotal.calculateTotalCartPrice();
 
         double discount = useLoyaltyPoints;
-        if (discount > user.getLoyaltyPoints()) {
+
+        // Check if 'user' is not null before accessing 'getLoyaltyPoints()'
+        if (user != null && discount > user.getLoyaltyPoints()) {
             discount = user.getLoyaltyPoints();
         }
 
