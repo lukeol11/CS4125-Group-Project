@@ -10,8 +10,6 @@ import com.cs4125.shop.model.factory.RAMFactory;
 import com.cs4125.shop.model.factory.CaseFactory;
 import com.cs4125.shop.model.factory.StorageFactory;
 import com.cs4125.shop.shoppingcart.ShoppingCart;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,9 +27,6 @@ public class ComponentController {
     private ShoppingCart cart = new ShoppingCart();
     private Compatibility compatibility = new Compatibility();
     private List<User> userList = new ArrayList<>();
-
-    @Autowired
-    private UserController userController;
 
     private UserFactory userFactory = new UserFactory() {
     };
@@ -123,50 +118,71 @@ public class ComponentController {
         return cart.getComponents();
     }
 
-    @PostMapping("/checkout")
-public ResponseEntity<String> checkout(@RequestParam("email") String email,
-        @RequestParam("useLoyaltyPoints") int useLoyaltyPoints) {
-    ResponseEntity<User> userResponse = userController.getUserByEmail(email);
+    @GetMapping("/getLoyaltyPoints")
+    public ResponseEntity<?> getLoyaltyPoints(@RequestParam("username") String username) {
+        User user = findUserByUsername(username);
 
-    if (userResponse.getStatusCode() == HttpStatus.OK) {
-        User user = userResponse.getBody();
-
-        CartTotal cartTotal = new CartTotal(cart); // Create an instance of CartTotal
-        double totalAmount = cartTotal.calculateTotalCartPrice();
-
-        double discount = useLoyaltyPoints;
-
-        // Check if 'user' is not null before accessing 'getLoyaltyPoints()'
-        if (user != null && discount > user.getLoyaltyPoints()) {
-            discount = user.getLoyaltyPoints();
-        }
-
-        int pointsAwarded = (int) (totalAmount / 10);
-
-        // Check if 'user' is not null before invoking 'addLoyaltyPoints'
         if (user != null) {
-            user.addLoyaltyPoints(pointsAwarded);
-        
-            user.deductLoyaltyPoints(discount);
-        }
-
-
-        cart.clearCart();
-        return ResponseEntity.ok("Checkout successful. Loyalty points used: " + discount
-                + " euros. Loyalty points earned: " + pointsAwarded);
-    } else {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
-    }
-}
-
-    @GetMapping("/user/find/{email}")
-    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
-        ResponseEntity<User> response = userController.getUserByEmail(email);
-
-        if (response.getStatusCode() == HttpStatus.OK) {
-            return ResponseEntity.ok(response.getBody());
+            return ResponseEntity.ok(user.getLoyaltyPoints());
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
+        }
+    }
+
+    @PostMapping("/users/create")
+    public ResponseEntity<String> createUser(
+            @RequestParam("username") String username,
+            @RequestParam("loyaltyPoints") int loyaltyPoints) {
+        User newUser = userFactory.createUser(username, loyaltyPoints);
+        userList.add(newUser);
+
+        return ResponseEntity.ok("User created successfully.");
+    }
+
+    private User findUserByUsername(String username) {
+        for (User user : userList) {
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    @PostMapping("/checkout")
+    public ResponseEntity<String> checkout(@RequestParam("username") String username,
+            @RequestParam("useLoyaltyPoints") int useLoyaltyPoints) {
+        User user = findUserByUsername(username);
+
+        if (user != null) {
+            CartTotal cartTotal = new CartTotal(cart); // Create an instance of CartTotal
+            double totalAmount = cartTotal.calculateTotalCartPrice();
+
+            double discount = useLoyaltyPoints;
+            if (discount > user.getLoyaltyPoints()) {
+                discount = user.getLoyaltyPoints();
+            }
+
+            int pointsAwarded = (int) (totalAmount / 10);
+            user.addLoyaltyPoints(pointsAwarded);
+
+            user.deductLoyaltyPoints(discount);
+
+            cart.clearCart();
+            return ResponseEntity.ok("Checkout successful. Loyalty points used: " + discount
+                    + " euros. Loyalty points earned: " + pointsAwarded);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
+        }
+    }
+
+    @GetMapping("/users/find")
+    public ResponseEntity<User> findUser(@RequestParam("username") String username) {
+        User user = findUserByUsername(username);
+
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 }

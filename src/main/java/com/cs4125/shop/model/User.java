@@ -1,31 +1,23 @@
 package com.cs4125.shop.model;
 
 import com.cs4125.shop.model.factory.UserFactory;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.io.Serializable;
-
-public class User implements UserFactory, Serializable {
+public class User implements UserFactory {
     private String username;
     private String email;
     private String hashedPassword;
-    private String rawPassword;
     private int loyaltyPoints;
 
-    // Constructors
-    public User(String email, String rawPassword, int loyaltyPoints) {
+    public User(String email, String hashedPassword, int loyaltyPoints) {
         this.email = email;
-        this.hashedPassword = encryptPassword(rawPassword); // Encrypting the password
-        this.rawPassword = rawPassword; // Storing the raw password temporarily
+        this.hashedPassword = hashedPassword;
         this.loyaltyPoints = loyaltyPoints;
     }
 
-    public User(String username, String email, String rawPassword, int loyaltyPoints) {
+    public User(String username, String email, String hashedPassword, int loyaltyPoints) {
         this.username = username;
         this.email = email;
-        this.hashedPassword = encryptPassword(rawPassword); // Encrypting the password
-        this.rawPassword = rawPassword; // Storing the raw password temporarily
+        this.hashedPassword = hashedPassword;
         this.loyaltyPoints = loyaltyPoints;
     }
 
@@ -34,7 +26,6 @@ public class User implements UserFactory, Serializable {
         this.loyaltyPoints = loyaltyPoints;
     }
 
-    // Getter and setter methods
     public String getUsername() {
         return username;
     }
@@ -59,15 +50,6 @@ public class User implements UserFactory, Serializable {
         this.hashedPassword = hashedPassword;
     }
 
-    public String getRawPassword() {
-        return rawPassword;
-    }
-
-    public void setRawPassword(String rawPassword) {
-        this.rawPassword = rawPassword;
-        this.hashedPassword = encryptPassword(rawPassword); // Encrypting the password when setting raw password
-    }
-
     public int getLoyaltyPoints() {
         return loyaltyPoints;
     }
@@ -82,10 +64,5 @@ public class User implements UserFactory, Serializable {
         } else {
             throw new IllegalArgumentException("Invalid discount amount.");
         }
-    }
-
-    private String encryptPassword(String rawPassword) {
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return passwordEncoder.encode(rawPassword);
     }
 }
