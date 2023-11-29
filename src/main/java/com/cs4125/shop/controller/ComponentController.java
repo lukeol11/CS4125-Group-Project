@@ -142,9 +142,16 @@ public ResponseEntity<String> checkout(@RequestParam("email") String email,
         }
 
         int pointsAwarded = (int) (totalAmount / 10);
-        user.addLoyaltyPoints(pointsAwarded);
 
-        user.deductLoyaltyPoints(discount);
+        // Check if 'user' is not null before invoking 'addLoyaltyPoints'
+        if (user != null) {
+            user.addLoyaltyPoints(pointsAwarded);
+        
+            // Check if 'discount' is not null before invoking 'deductLoyaltyPoints'
+            if (discount != null) {
+                user.deductLoyaltyPoints(discount);
+            }
+        }
 
         cart.clearCart();
         return ResponseEntity.ok("Checkout successful. Loyalty points used: " + discount
