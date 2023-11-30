@@ -82,10 +82,10 @@ public class ComponentController {
         componentList.add(storageFactory.createComponent("Samsung 970 Evo 2TB", 349.99, 10, 2000, "M.2"));
         componentList.add(storageFactory.createComponent("Samsung 970 Evo 4TB", 749.99, 10, 4000, "HDD"));
 
-    }
+        BulkOrderDiscount bulkOrderDiscount = new BulkOrderDiscount(true, 1000, new CartTotal(cart));
 
-    public void addDiscount(Discount discount) {
-        discounts.add(discount);
+        discounts.add(bulkOrderDiscount);
+
     }
 
     @GetMapping("/components")
