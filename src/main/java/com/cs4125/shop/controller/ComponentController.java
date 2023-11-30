@@ -86,6 +86,9 @@ public class ComponentController {
 
         discounts.add(bulkOrderDiscount);
 
+        SameTypeDiscount sameTypeDiscount = new SameTypeDiscount(cart);
+        discounts.add(sameTypeDiscount);
+
     }
 
     @GetMapping("/components")
