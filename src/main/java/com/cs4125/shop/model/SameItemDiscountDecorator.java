@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 public class SameItemDiscountDecorator extends DiscountDecorator {
-    private ShoppingCart shoppingCart; // Change to ShoppingCart
+    private ShoppingCart shoppingCart;
 
     public SameItemDiscountDecorator(Discount decoratedDiscount, ShoppingCart shoppingCart) {
         super(decoratedDiscount);
@@ -15,26 +15,23 @@ public class SameItemDiscountDecorator extends DiscountDecorator {
 
     @Override
     public double applyDiscount(double originalPrice) {
-        // Additional behavior specific to this decorator
-        return super.applyDiscount(originalPrice * 0.9); // Apply a 10% discount
+        return super.applyDiscount(originalPrice * 0.9);
     }
 
     @Override
     public String getDescription() {
-        // Additional behavior specific to this decorator
         return "Same Item Discount: 10% off on items with the same name";
     }
 
     @Override
     public boolean isApplicable() {
-        // Additional behavior specific to this decorator
         List<Component> cartItems = shoppingCart.getComponents();
         Set<String> itemNames = new HashSet<>();
 
         for (Component item : cartItems) {
             String itemName = item.getName();
             if (itemNames.contains(itemName)) {
-                return true; // Apply discount if the same item name is found
+                return true;
             } else {
                 itemNames.add(itemName);
             }

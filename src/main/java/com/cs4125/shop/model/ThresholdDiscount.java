@@ -11,7 +11,6 @@ public class ThresholdDiscount implements Discount {
 
     @Override
     public double applyDiscount(double originalPrice) {
-        // Apply discount if the total amount exceeds the threshold
         if (originalPrice > thresholdAmount) {
             return originalPrice * (1 - discountPercentage / 100);
         }
@@ -25,6 +24,6 @@ public class ThresholdDiscount implements Discount {
 
     @Override
     public boolean isApplicable() {
-        return true; // You might want to refine the condition based on your business rules
+        return true;
     }
 }

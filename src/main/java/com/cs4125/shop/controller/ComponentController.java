@@ -82,11 +82,9 @@ public class ComponentController {
         componentList.add(storageFactory.createComponent("Samsung 970 Evo 2TB", 349.99, 10, 2000, "M.2"));
         componentList.add(storageFactory.createComponent("Samsung 970 Evo 4TB", 749.99, 10, 4000, "HDD"));
 
-        // Create instances of your discount classes
         Discount sameItemDiscount = new SameItemDiscountDecorator(new BaseDiscount(), cart);
         Discount thresholdDiscount = new ThresholdDiscountDecorator(new BaseDiscount(), 1000, 15, new CartTotal(cart));
 
-        // Add the discounts to the controller
         addDiscount(sameItemDiscount);
         addDiscount(thresholdDiscount);
 
