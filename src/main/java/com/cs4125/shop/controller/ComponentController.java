@@ -26,6 +26,8 @@ import java.util.Map;
 @RequestMapping("/api")
 public class ComponentController {
     private List<Component> componentList = new ArrayList<>();
+    private List<Discount> discounts = new ArrayList<>();
+
     private ShoppingCart cart = new ShoppingCart();
     private Compatibility compatibility = new Compatibility();
     private List<User> userList = new ArrayList<>();
@@ -60,7 +62,7 @@ public class ComponentController {
                 motherboardFactory.createComponent("ASUS ROG Strix X570-E", 329.99, 60, "X570", "ATX", "AM4", "M.2"));
         componentList.add(motherboardFactory.createComponent("ASUS ROG Strix Z390-F", 229.99, 60, "Z390", "ATX",
                 "LGA 1151", "HDD"));
-        componentList.add(ramFactory.createComponent("CorsairVengeanceLPX16GB", 79.99, 10, 16, 3200));
+        componentList.add(ramFactory.createComponent("Corsair Vengeance LPX 16GB", 79.99, 10, 16, 3200));
         componentList.add(ramFactory.createComponent("Corsair Vengeance LPX 32GB", 149.99, 10, 32, 3200));
         componentList.add(ramFactory.createComponent("Corsair Vengeance LPX 64GB", 299.99, 10, 64, 3600));
         componentList
@@ -85,6 +87,16 @@ public class ComponentController {
         componentList.add(storageFactory.createComponent("Samsung 970 Evo 2TB", 349.99, 10, 2000, "M.2"));
         componentList.add(storageFactory.createComponent("Samsung 970 Evo 4TB", 749.99, 10, 4000, "HDD"));
 
+        Discount sameItemDiscount = new SameItemDiscountDecorator(new BaseDiscount(), cart);
+        Discount thresholdDiscount = new ThresholdDiscountDecorator(new BaseDiscount(), 1000, 15, new CartTotal(cart));
+
+        addDiscount(sameItemDiscount);
+        addDiscount(thresholdDiscount);
+
+    }
+
+    public void addDiscount(Discount discount) {
+        discounts.add(discount);
     }
 
     @GetMapping("/components")

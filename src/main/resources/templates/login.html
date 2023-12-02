@@ -59,6 +59,7 @@
             color: #ff0000;
             margin-bottom: 1em;
         }
+<<<<<<< HEAD
 
         /* New styles for the show/hide password icon */
         .password-container {
@@ -71,6 +72,8 @@
             right: 10px;
             cursor: pointer;
         }
+=======
+>>>>>>> 82a4160d4176d4b8fa2f52e3091d91dfdbf655ee
     </style>
 </head>
 <body>
@@ -80,6 +83,7 @@
     
     <section>
         <h2>User Login</h2>
+<<<<<<< HEAD
         <div class="error-message" th:if="${errorMessage}">
             <p th:text="${errorMessage}"></p>
         </div>
@@ -92,10 +96,23 @@
                 <input type="password" value="" id="password" name="password" th:required="required">
                 <img src='icons/show.png' alt="Show Password" class="show-password-icon" onclick="togglePasswordVisibility()">
             </label>
+=======
+        <div th:if="${errorMessage}" class="error-message">
+            <p th:text="${errorMessage}"></p>
+        </div>
+        
+        <form action="/login" method="post" th:action="@{/login}">
+            <label for="email">Email:</label>
+            <input type="email" value ="" id="email" name="email" th:required="required">
+            
+            <label for="password">Password:</label>
+            <input type="password" value="" id="password" name="password" th:required="required">
+>>>>>>> 82a4160d4176d4b8fa2f52e3091d91dfdbf655ee
             
             <button type="submit">Login</button>
         </form>
     </section>
+<<<<<<< HEAD
 
     <script>
         function togglePasswordVisibility() {
@@ -111,5 +128,7 @@
             }
         }
     </script>
+=======
+>>>>>>> 82a4160d4176d4b8fa2f52e3091d91dfdbf655ee
 </body>
 </html>
