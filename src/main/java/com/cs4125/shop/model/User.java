@@ -1,4 +1,4 @@
-package com.cs4125.shop.model.User;
+package com.cs4125.shop.model;
 
 import com.cs4125.shop.model.factory.UserFactory;
 
@@ -7,6 +7,7 @@ public class User implements UserFactory {
     private String email;
     private String hashedPassword;
     private int loyaltyPoints;
+    private Subscription subscription;
 
     public User(String email, String hashedPassword, int loyaltyPoints) {
         this.email = email;
@@ -21,9 +22,10 @@ public class User implements UserFactory {
         this.loyaltyPoints = loyaltyPoints;
     }
 
-    public User(String username, int loyaltyPoints) {
+    public User(String username, int loyaltyPoints, Subscription subscription) {
         this.username = username;
         this.loyaltyPoints = loyaltyPoints;
+        this.subscription = subscription;
     }
 
     public String getUsername() {
@@ -55,7 +57,7 @@ public class User implements UserFactory {
     }
 
     public void addLoyaltyPoints(int points) {
-        loyaltyPoints += points;
+        addLoyaltyPoints(points);
     }
 
     public void deductLoyaltyPoints(double discount) {
@@ -63,6 +65,18 @@ public class User implements UserFactory {
             loyaltyPoints -= discount;
         } else {
             throw new IllegalArgumentException("Invalid discount amount.");
+        }
+    }
+
+    public void applyNewSubscription(Subscription subscription) {
+        this.subscription = subscription;
+    }
+
+    public int getLoyaltyPoints(int points) {
+        if (subscription != null) {
+            return subscription.calculateLoyaltyPoints(points);
+        } else {
+            return points; // No subscription, use points
         }
     }
 }

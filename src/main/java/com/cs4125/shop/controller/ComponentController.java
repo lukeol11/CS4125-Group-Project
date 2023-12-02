@@ -1,7 +1,6 @@
 package com.cs4125.shop.controller;
 
 import com.cs4125.shop.model.*;
-import com.cs4125.shop.model.User.User;
 import com.cs4125.shop.model.factory.UserFactory;
 import com.cs4125.shop.model.factory.CPUFactory;
 import com.cs4125.shop.model.factory.GraphicsCardFactory;
@@ -10,6 +9,7 @@ import com.cs4125.shop.model.factory.PowerSupplyFactory;
 import com.cs4125.shop.model.factory.RAMFactory;
 import com.cs4125.shop.model.factory.CaseFactory;
 import com.cs4125.shop.model.factory.StorageFactory;
+import com.cs4125.shop.model.factory.SubscriptionFactory;
 import com.cs4125.shop.shoppingcart.ShoppingCart;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +44,8 @@ public class ComponentController {
     private StorageFactory storageFactory = new StorageFactory() {
     };
     private CaseFactory caseFactory = new CaseFactory() {
+    };
+    private SubscriptionFactory subscriptionFactory = new SubscriptionFactory() {
     };
 
     public ComponentController() {
@@ -80,6 +82,9 @@ public class ComponentController {
         componentList.add(storageFactory.createComponent("Samsung 970 Evo 1TB", 169.99, 10, 1000, "M.2"));
         componentList.add(storageFactory.createComponent("Samsung 970 Evo 2TB", 349.99, 10, 2000, "M.2"));
         componentList.add(storageFactory.createComponent("Samsung 970 Evo 4TB", 749.99, 10, 4000, "HDD"));
+        componentList.add(subscriptionFactory.createComponent("Silver subscription", 19.99, 0));
+        componentList.add(subscriptionFactory.createComponent("Gold subscription", 29.99, 0));
+        componentList.add(subscriptionFactory.createComponent("Platinum subscription", 49.99, 0));
     }
 
     @GetMapping("/components")
@@ -98,19 +103,31 @@ public class ComponentController {
     }
 
     @PostMapping("/cart/add")
-    public void addComponentToCart(@RequestParam("name") String componentName) {
+    public ResponseEntity<String> addComponentToCart(@RequestParam("name") String componentName) {
+        if (cart.hasSubscription()) {
+            return ResponseEntity.badRequest().body("Subscription exists in the cart");
+        }
         for (Component component : componentList) {
             if (component.getName().equals(componentName)) {
                 // check compatibility
                 if (compatibility.isCompatibleWith(componentList, cart)) {
-                    System.out.println("Before Adding");
                     cart.addComponent(component);
-                    System.out.println("Run Added");
                 } else {
-                    System.out.println("Run Not Added");
+                    return ResponseEntity.badRequest().body("Not added");
+                }
                 }
             }
+            return ResponseEntity.badRequest().body("Added Successfully");
         }
+
+    @PostMapping("/cart/remove")
+    public ResponseEntity<String> removeFromCart(@RequestParam("name") String componentName) {
+        for (Component component : componentList) {
+            if (component.getName().equals(componentName)) {
+                cart.removeComponent(component);
+            }
+        }
+        return ResponseEntity.badRequest().body("Removed successfully");
     }
 
     @GetMapping("/cart")
@@ -132,8 +149,9 @@ public class ComponentController {
     @PostMapping("/users/create")
     public ResponseEntity<String> createUser(
             @RequestParam("username") String username,
-            @RequestParam("loyaltyPoints") int loyaltyPoints) {
-        User newUser = userFactory.createUser(username, loyaltyPoints);
+            @RequestParam("loyaltyPoints") int loyaltyPoints,
+            @RequestParam("Subscription") Subscription subscription) {
+        User newUser = userFactory.createUser(username, loyaltyPoints, subscription);
         userList.add(newUser);
 
         return ResponseEntity.ok("User created successfully.");

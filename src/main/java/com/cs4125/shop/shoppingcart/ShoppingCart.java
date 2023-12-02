@@ -28,4 +28,7 @@ public class ShoppingCart {
         components.clear();
     }
 
+    public boolean hasSubscription() {
+        return components.stream().anyMatch(component -> component.getName().equals("Subscription"));
+    }
 }
