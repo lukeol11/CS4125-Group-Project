@@ -52,12 +52,8 @@ public class User implements UserFactory {
         this.hashedPassword = hashedPassword;
     }
 
-    public int getLoyaltyPoints() {
-        return loyaltyPoints;
-    }
-
     public void addLoyaltyPoints(int points) {
-        addLoyaltyPoints(points);
+        this.loyaltyPoints = loyaltyPoints;
     }
 
     public void deductLoyaltyPoints(double discount) {
@@ -68,15 +64,28 @@ public class User implements UserFactory {
         }
     }
 
-    public void applyNewSubscription(Subscription subscription) {
-        this.subscription = subscription;
+    public int getLoyaltyPoints() {
+        if (subscription != null) {
+            return subscription.calculateLoyaltyPoints(loyaltyPoints);
+        } else {
+            return loyaltyPoints; // No subscription, use points
+        }
     }
 
-    public int getLoyaltyPoints(int points) {
-        if (subscription != null) {
-            return subscription.calculateLoyaltyPoints(points);
+    public Subscription getSubscription() {
+        return subscription;
+    }
+
+    public void addSubscription(Subscription subscriptionToAdd) {
+        if (subscription == null) {
+            this.subscription = subscriptionToAdd;
+            System.out.println("Subscription added to the cart: " + subscriptionToAdd.getName());
         } else {
-            return points; // No subscription, use points
+            if (subscription.getName().equals(subscriptionToAdd.getName())) {
+                System.out.println("This subscription is already in the cart.");
+            } else {
+                System.out.println("Another subscription already exists in the cart.");
+            }
         }
     }
 }

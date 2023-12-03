@@ -84,9 +84,9 @@ public class ComponentController {
         componentList.add(storageFactory.createComponent("Samsung 970 Evo 1TB", 169.99, 10, 1000, "M.2"));
         componentList.add(storageFactory.createComponent("Samsung 970 Evo 2TB", 349.99, 10, 2000, "M.2"));
         componentList.add(storageFactory.createComponent("Samsung 970 Evo 4TB", 749.99, 10, 4000, "HDD"));
-        componentList.add(subscriptionFactory.createComponent("Silver subscription", 19.99, 0));
-        componentList.add(subscriptionFactory.createComponent("Gold subscription", 29.99, 0));
-        componentList.add(subscriptionFactory.createComponent("Platinum subscription", 49.99, 0));
+        componentList.add(subscriptionFactory.createComponent("Silver subscription", 19.99, 0, SubscriptionState.SILVER));
+        componentList.add(subscriptionFactory.createComponent("Gold subscription", 29.99, 0, SubscriptionState.GOLD));
+        componentList.add(subscriptionFactory.createComponent("Platinum subscription", 49.99, 0, SubscriptionState.PLATINUM));
         Discount sameItemDiscount = new SameItemDiscountDecorator(new BaseDiscount(), cart);
         Discount thresholdDiscount = new ThresholdDiscountDecorator(new BaseDiscount(), 1000, 15, new CartTotal(cart));
 
@@ -152,17 +152,24 @@ public class ComponentController {
         User user = findUserByUsername(username);
 
         if (user != null) {
-            return ResponseEntity.ok(user.getLoyaltyPoints());
+            Subscription userSubscription = user.getSubscription();
+            if (userSubscription != null) {
+                int loyaltyPoints = userSubscription.calculateLoyaltyPoints(user.getLoyaltyPoints());
+                return ResponseEntity.ok(loyaltyPoints);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User has no subscription.");
+            }
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
         }
     }
 
+
     @PostMapping("/users/create")
     public ResponseEntity<String> createUser(
             @RequestParam("username") String username,
             @RequestParam("loyaltyPoints") int loyaltyPoints,
-            @RequestParam("Subscription") Subscription subscription) {
+            @RequestParam(value = "subscription", required = false) Subscription subscription) {
         User newUser = userFactory.createUser(username, loyaltyPoints, subscription);
         userList.add(newUser);
 
@@ -180,43 +187,50 @@ public class ComponentController {
 
     @PostMapping("/checkout")
     public ResponseEntity<String> checkout(@RequestParam("username") String username,
-            @RequestParam("useLoyaltyPoints") int useLoyaltyPoints) {
-        User user = findUserByUsername(username);
+        @RequestParam("useLoyaltyPoints") int useLoyaltyPoints) {
+    User user = findUserByUsername(username);
 
-        if (user != null) {
-            CartTotal cartTotal = new CartTotal(cart);
-            double totalAmount = cartTotal.calculateTotalCartPrice();
+    if (user != null) {
+        CartTotal cartTotal = new CartTotal(cart);
+        double totalAmount = cartTotal.calculateTotalCartPrice();
 
-            // Applying loyalty points discount
-            double discount = useLoyaltyPoints;
-            if (discount > user.getLoyaltyPoints()) {
-                discount = user.getLoyaltyPoints();
-            }
-
-            int pointsAwarded = (int) (totalAmount / 10);
-            user.addLoyaltyPoints(pointsAwarded);
-
-            user.deductLoyaltyPoints(discount);
-
-            // Applying dynamic discounts
-            double discountedAmount = totalAmount;
-
-            for (Discount discountObj : discounts) {
-                if (discountObj.isApplicable()) {
-                    discountedAmount = discountObj.applyDiscount(discountedAmount);
-                    System.out.println("Applied Discount: " + discountObj.getDescription());
-                }
-            }
-
-            cart.clearCart();
-
-            return ResponseEntity.ok("Checkout successful. Loyalty points used: " + discount
-                    + " euros. Loyalty points earned: " + pointsAwarded +
-                    "\nTotal Amount after Discounts: " + discountedAmount);
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
+        // Applying loyalty points discount
+        double discount = useLoyaltyPoints;
+        if (discount > user.getLoyaltyPoints()) {
+            discount = user.getLoyaltyPoints();
         }
+
+        int pointsAwarded = (int) (totalAmount / 10);
+        user.addLoyaltyPoints(pointsAwarded);
+
+        user.deductLoyaltyPoints(discount);
+
+        // Handle subscription addition from the cart to the user here
+        Component cartComponent = cart.getSubscription();
+        if (cart.hasSubscription()) {
+            Subscription cartSubscription = (Subscription) cartComponent;
+            user.addSubscription(cartSubscription);
+        }
+
+        // Applying dynamic discounts
+        double discountedAmount = totalAmount;
+        for (Discount discountObj : discounts) {
+            if (discountObj.isApplicable()) {
+                discountedAmount = discountObj.applyDiscount(discountedAmount);
+                System.out.println("Applied Discount: " + discountObj.getDescription());
+            }
+        }
+
+        cart.clearCart();
+
+        return ResponseEntity.ok("Checkout successful. Loyalty points used: " + discount
+                + " euros. Loyalty points earned: " + pointsAwarded +
+                "\nTotal Amount after Discounts: " + discountedAmount);
+    } else {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
     }
+}
+
 
     @GetMapping("/users/find")
     public ResponseEntity<User> findUser(@RequestParam("username") String username) {

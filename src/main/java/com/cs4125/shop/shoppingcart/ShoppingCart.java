@@ -1,12 +1,14 @@
 package com.cs4125.shop.shoppingcart;
 
 import com.cs4125.shop.model.Component;
+import com.cs4125.shop.model.Subscription;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingCart {
     private List<Component> components;
+    private Subscription subscription;
 
     public ShoppingCart() {
         components = new ArrayList<>();
@@ -29,6 +31,10 @@ public class ShoppingCart {
     }
 
     public boolean hasSubscription() {
-        return components.stream().anyMatch(component -> component.getName().equals("Subscription"));
+        return components.stream().anyMatch(component -> component instanceof Subscription);
+    }
+
+    public Subscription getSubscription() {
+        return subscription;
     }
 }
