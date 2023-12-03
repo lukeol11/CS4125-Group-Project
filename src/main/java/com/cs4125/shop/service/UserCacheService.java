@@ -69,11 +69,11 @@ public class UserCacheService {
 
     private void loadUsersFromFile() {
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (line.startsWith("Username: ")) {
+            String currentLine;
+            while ((currentLine = reader.readLine()) != null) {
+                if (currentLine.startsWith("Username: ")) {
                     User user = new User();
-                    user.setUsername(line.substring("Username: ".length()).trim());
+                    user.setUsername(currentLine.substring("Username: ".length()).trim());
                     user.setEmail(reader.readLine().substring("Email: ".length()).trim());
                     user.setHashedPassword(reader.readLine().substring("Hashed Password: ".length()).trim());
                     user.setRawPassword(reader.readLine().substring("Raw Password: ".length()).trim());
