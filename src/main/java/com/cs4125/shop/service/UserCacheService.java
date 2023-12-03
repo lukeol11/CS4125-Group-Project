@@ -63,7 +63,7 @@ public class UserCacheService {
                 writer.write("\n");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // NOSONAR
         }
     }
 
@@ -85,7 +85,7 @@ public class UserCacheService {
             }
 //            System.out.println("Size of User :" + userCache.size());
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // NOSONAR
         }
     }
 }
