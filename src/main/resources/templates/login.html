@@ -59,28 +59,58 @@
             color: #ff0000;
             margin-bottom: 1em;
         }
+
+        /* New styles for the show/hide password icon */
+        .password-container {
+            position: relative;
+        }
+
+        .show-password-icon {
+            position: absolute;
+            height: 25px;
+            top: 35%;
+            right: 10px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>PCConfigXpress</h1>
     </header>
-    
+
     <section>
         <h2>User Login</h2>
-        <div th:if="${errorMessage}" class="error-message">
+        <div class="error-message" th:if="${errorMessage}">
             <p th:text="${errorMessage}"></p>
         </div>
-        
-        <form action="/login" method="post" th:action="@{/login}">
+
+        <form action="/loginactivity" method="post" th:action="@{/loginactivity}">
             <label for="email">Email:</label>
-            <input type="email" value ="" id="email" name="email" th:required="required">
-            
-            <label for="password">Password:</label>
-            <input type="password" value="" id="password" name="password" th:required="required">
-            
+            <input type="email" value="" id="email" name="email" th:required="required">
+
+            <label for="password" class="password-container">Password:
+                <input type="password" value="" id="password" name="password" th:required="required">
+                <img th:src="@{icons/show.png}" alt="Show Password" class="show-password-icon" onclick="togglePasswordVisibility()">
+            </label>
+
             <button type="submit">Login</button>
         </form>
     </section>
+
+    <script>
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById('password');
+            var icon = document.querySelector('.show-password-icon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.src = 'icons/hide.png';
+            } else {
+                passwordInput.type = 'password';
+                icon.src = 'icons/show.png';
+            }
+        }
+    </script>
 </body>
 </html>
