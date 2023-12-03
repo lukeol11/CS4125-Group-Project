@@ -116,9 +116,6 @@ public class ComponentController {
 
     @PostMapping("/cart/add")
     public ResponseEntity<String> addComponentToCart(@RequestParam("name") String componentName) {
-        if (cart.hasSubscription()) {
-            return ResponseEntity.badRequest().body("Subscription exists in the cart");
-        }
         for (Component component : componentList) {
             if (component.getName().equals(componentName)) {
                 // check compatibility
