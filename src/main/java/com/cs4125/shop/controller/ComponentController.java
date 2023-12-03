@@ -114,9 +114,8 @@ public class ComponentController {
         return componentInfoList;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/cart/add")
     public void addComponentToCart(@RequestParam("name") String componentName) {
-        System.out.println(componentName);
         for (Component component : componentList) {
             if (component.getName().equals(componentName)) {
                 // check compatibility
