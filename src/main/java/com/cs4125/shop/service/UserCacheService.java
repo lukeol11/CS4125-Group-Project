@@ -78,7 +78,8 @@ public class UserCacheService {
                     user.setHashedPassword(reader.readLine().substring("Hashed Password: ".length()).trim());
                     user.setRawPassword(reader.readLine().substring("Raw Password: ".length()).trim());
                     user.addLoyaltyPoints(Integer.parseInt(reader.readLine().substring("Loyalty Points: ".length()).trim()));
-                    reader.readLine(); // Read the empty line
+                    String line = reader.readLine(); // Read the empty line.
+                    // Store "line" for later use.
 
                     userCache.add(user);
                 }
