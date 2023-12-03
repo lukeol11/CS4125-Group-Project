@@ -53,7 +53,7 @@ public class User implements UserFactory {
     }
 
     public void addLoyaltyPoints(int points) {
-        this.loyaltyPoints += loyaltyPoints;
+        this.loyaltyPoints += points;
     }
 
     public void deductLoyaltyPoints(double discount) {
