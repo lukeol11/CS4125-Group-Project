@@ -203,9 +203,8 @@ public class ComponentController {
         user.deductLoyaltyPoints(discount);
 
         // Handle subscription addition from the cart to the user here
-        Component cartComponent = cart.getSubscription();
         if (cart.hasSubscription()) {
-            Subscription cartSubscription = (Subscription) cartComponent;
+            Subscription cartSubscription = cart.getSubscription();;
             user.addSubscription(cartSubscription);
         }
 
