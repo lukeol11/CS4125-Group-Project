@@ -1,59 +1,185 @@
 Username: user1
 Email: user1@example.com
-Hashed Password: $2a$10$0QsBmTYklk9lI8uzUU1s3.Zb3v8z25hi9j2Cdb4jF1vYthM9bQqF2
+Hashed Password: $2a$10$A9D4y2VAyTHw3.BjOswtoeJAlexntr39KWZ.rbHu1jAAo.WjP2Mli
 Raw Password: password1
 Loyalty Points: 100
 
 Username: user2
 Email: user2@example.com
-Hashed Password: $2a$10$z8RtUZkfp.UEGwGp7lqT3e8XT.VXVj.f9o8XJNl9ZdqQp5OY/TrQi
+Hashed Password: $2a$10$.pF82ieugxMNDjs8sBCXUe8I9t6yorvTajmJFSN5bu6Bh8064yy8S
 Raw Password: password2
 Loyalty Points: 200
 
 Username: user3
 Email: user3@example.com
-Hashed Password: $2a$10$YQpQjB8joWXeCfKd2Sf8LeMny1jly4c0TZ8LTFhwwjwUCzA4K9atG
+Hashed Password: $2a$10$y1eGjVxhbiz5y6UZWtV8FeTpmurTDdk0UZaHr.TBYpjrdf996I1I.
 Raw Password: password3
 Loyalty Points: 300
 
 Username: user4
 Email: user4@example.com
-Hashed Password: $2a$10$gkKfYDk4SHQ3WgXF0Flg.OzffZeru7ksFIB9vjPpRC/9yMolAX5DW
+Hashed Password: $2a$10$nav3XPwx2c2K.zkokIfzTuAKE8QDRwJi3Ey10anQCC8KpX0Z28jvi
 Raw Password: password4
 Loyalty Points: 400
 
 Username: user5
 Email: user5@example.com
-Hashed Password: $2a$10$7S5VqOrnExHT0z2qI2VWVOs6rC/l.Fpl7CwFkZXJfsfP/u9kW/KyG
+Hashed Password: $2a$10$sLHMrCBT.JrLhgWKgx.nB.KDeUtMy9PP94IEqbmZQHKlY5YpS3f2S
 Raw Password: password5
 Loyalty Points: 500
 
 Username: user6
 Email: user6@example.com
-Hashed Password: $2a$10$UVYnNZOXu.Bey2pneTg9l.jplkwLWGR4ZG02vZ6d9RoErOCWxXVbm
+Hashed Password: $2a$10$pk5ZS9TbW05VQWSjFW6wBesTdoQgvGDFEmbP39o87CNCMDHEQ6MdC
 Raw Password: password6
 Loyalty Points: 600
 
 Username: user7
 Email: user7@example.com
-Hashed Password: $2a$10$CAOuQcC3hG0Gozm/Z6oQ0eVMgK8BtHNhJysdSVjwJoJyqPVj0.L9e
+Hashed Password: $2a$10$6w1pxdC826WWze75hC9Bd.W8tJXKCY6LVoaw3ewfSyw03gBpC7gK6
 Raw Password: password7
 Loyalty Points: 700
 
 Username: user8
 Email: user8@example.com
-Hashed Password: $2a$10$fZgANkqVr0We/cyOSh8wFOI/HPbiv.FYMxvah4s8eZsbme9H7Y1j6
+Hashed Password: $2a$10$24PGWwtK2xXdz70he/eVh.k6DTQU9idJTdrhEEPRHH8aYqvz2ZmXW
 Raw Password: password8
 Loyalty Points: 800
 
 Username: user9
 Email: user9@example.com
-Hashed Password: $2a$10$e/mzA4.oRtwX8ZwabgD/4OABZ/r0aT/hm5m2NFKCnKO.ETBfOjHSS
+Hashed Password: $2a$10$WWvfXwpZHTpva43Jwm27FOKfI30nnYTN0jr24e11J7xS94gU5hUE6
 Raw Password: password9
 Loyalty Points: 900
 
 Username: user10
 Email: user10@example.com
-Hashed Password: $2a$10$OaRqPr/yJON0upOPLHTCJebN2s6/lz6TVK6Qr1ToKqnu03lr4uxv2
+Hashed Password: $2a$10$memzv45DaYRZ0LY0/fIof.6WNIxnjziWwGF1tURlSspLC6wTW2RzO
 Raw Password: password10
 Loyalty Points: 1000
+Username: user1
+Email: user1@example.com
+Hashed Password: $2a$10$ooP1naOlOclz5JRbGwCeHe4MU8fido17hMQvB4wrohI3rWiziU1ge
+Raw Password: password1
+Loyalty Points: 100
+
+Username: user2
+Email: user2@example.com
+Hashed Password: $2a$10$lWNpV.R99a26W4t12crGXuXN/t.gq.uc5yy3woPOAT/TKsf.wz1My
+Raw Password: password2
+Loyalty Points: 200
+
+Username: user3
+Email: user3@example.com
+Hashed Password: $2a$10$snFHq6o8ZXoSoQ4CkP2wz.NWhO4vsxziccMYBbs69wHzaNwBxWcHy
+Raw Password: password3
+Loyalty Points: 300
+
+Username: user4
+Email: user4@example.com
+Hashed Password: $2a$10$Xun81L5bnm4u8xAT3LvlXuVdn.Tr2V5yfMZAyIACs8eGxal0gRg1a
+Raw Password: password4
+Loyalty Points: 400
+
+Username: user5
+Email: user5@example.com
+Hashed Password: $2a$10$QIo7dZSTkH6MQPGYCZbbOO8EGAL90NPfinHcAqUJwdjHK9O5LADvy
+Raw Password: password5
+Loyalty Points: 500
+
+Username: user6
+Email: user6@example.com
+Hashed Password: $2a$10$lrWJotSBSfr4..mcwaouPehlcOaZZXj.QG19wo6//pPN7xF1PV31C
+Raw Password: password6
+Loyalty Points: 600
+
+Username: user7
+Email: user7@example.com
+Hashed Password: $2a$10$hA8EpOx.Wpc3EiC3eCuHFOMz4baT5XRQ4uEUE.U3PRIlJIW1ZI/ju
+Raw Password: password7
+Loyalty Points: 700
+
+Username: user8
+Email: user8@example.com
+Hashed Password: $2a$10$50rU7U/EdWmDXB3zE51.Du/zAw0Scs.cIsP8ZGQDLrKofxcVREqs.
+Raw Password: password8
+Loyalty Points: 800
+
+Username: user9
+Email: user9@example.com
+Hashed Password: $2a$10$fkgg6beGjAvwop5dvX0c2eXKGQLf4Eq4FHy7awIx/G0jHJHiTzhyy
+Raw Password: password9
+Loyalty Points: 900
+
+Username: user10
+Email: user10@example.com
+Hashed Password: $2a$10$o8IengQA8FCrQIkSa8aTke6.v.SZASlJumryHFJVh79VUiPBPlvV2
+Raw Password: password10
+Loyalty Points: 1000
+
+Username: user1
+Email: user1@example.com
+Hashed Password: $2a$10$K1SKI9zf9GLjGH36qMFTEu.YSyQ174q5PKDerbaK3YnpgPYgFBvzW
+Raw Password: password1
+Loyalty Points: 100
+
+Username: user2
+Email: user2@example.com
+Hashed Password: $2a$10$BqAcR8zGG2TbWgB0WHT5WOIUxqn7uDx8cu723ORtS4GsKrQca1GJG
+Raw Password: password2
+Loyalty Points: 200
+
+Username: user3
+Email: user3@example.com
+Hashed Password: $2a$10$4D1fQvLXyjm8opzgPdkiMug3nxlbMUKZGYhWGF9jUt8owYJHPGBXa
+Raw Password: password3
+Loyalty Points: 300
+
+Username: user4
+Email: user4@example.com
+Hashed Password: $2a$10$hm7ur4Cu8KdvvjTQruyLd.4DegLDmGgIU3XLJtps3Rju8Lm6yi586
+Raw Password: password4
+Loyalty Points: 400
+
+Username: user5
+Email: user5@example.com
+Hashed Password: $2a$10$1AQuoo9GOG.flt9BwVIwZeC7/gpBuq8tLGkr56j524xgZDjqCF8nC
+Raw Password: password5
+Loyalty Points: 500
+
+Username: user6
+Email: user6@example.com
+Hashed Password: $2a$10$Z/izSQP0lpUCQIKR99cg7.MSKO.1C2apvVWDymZpASfqFL0xT3ZCG
+Raw Password: password6
+Loyalty Points: 600
+
+Username: user7
+Email: user7@example.com
+Hashed Password: $2a$10$O1a4S2JMZy5nHlD/m2ne6.8N3rXUnaPHylU7Ji9uVAi.yMzPIUSwS
+Raw Password: password7
+Loyalty Points: 700
+
+Username: user8
+Email: user8@example.com
+Hashed Password: $2a$10$rD0BkcYY49oTEFlYAMOp/O5AUX1jse/Hdsgbt8p0Qx45Y3z8Y.d9.
+Raw Password: password8
+Loyalty Points: 800
+
+Username: user9
+Email: user9@example.com
+Hashed Password: $2a$10$QL88bZ/SMLPU4l9G7N5xn.aXvc0Gq79U724QG5R2fZ7ERoDavIv1W
+Raw Password: password9
+Loyalty Points: 900
+
+Username: user10
+Email: user10@example.com
+Hashed Password: $2a$10$E6mmC8CpeHgSmUplEMUTFeG7GoiWnltiUn3SHwlGDhOGrCSPEhKvW
+Raw Password: password10
+Loyalty Points: 1000
+
+Username: null
+Email: Richard@gmail.com
+Hashed Password: $2a$10$YIPFNoFaphQ0LvXPg9ZA6.PYrK6qofzpFoPSCMI/hcpT6uM7/R8A6
+Raw Password: @Bc1234567890
+Loyalty Points: 0
+

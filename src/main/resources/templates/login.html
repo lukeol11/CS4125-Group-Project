@@ -59,7 +59,6 @@
             color: #ff0000;
             margin-bottom: 1em;
         }
-<<<<<<< HEAD
 
         /* New styles for the show/hide password icon */
         .password-container {
@@ -68,51 +67,36 @@
 
         .show-password-icon {
             position: absolute;
-            top: 50%;
+            height: 25px;
+            top: 35%;
             right: 10px;
             cursor: pointer;
         }
-=======
->>>>>>> 82a4160d4176d4b8fa2f52e3091d91dfdbf655ee
     </style>
 </head>
 <body>
     <header>
         <h1>PCConfigXpress</h1>
     </header>
-    
+
     <section>
         <h2>User Login</h2>
-<<<<<<< HEAD
         <div class="error-message" th:if="${errorMessage}">
             <p th:text="${errorMessage}"></p>
         </div>
-        
+
         <form action="/loginactivity" method="post" th:action="@{/loginactivity}">
             <label for="email">Email:</label>
             <input type="email" value="" id="email" name="email" th:required="required">
-            
+
             <label for="password" class="password-container">Password:
                 <input type="password" value="" id="password" name="password" th:required="required">
-                <img src='icons/show.png' alt="Show Password" class="show-password-icon" onclick="togglePasswordVisibility()">
+                <img th:src="@{icons/show.png}" alt="Show Password" class="show-password-icon" onclick="togglePasswordVisibility()">
             </label>
-=======
-        <div th:if="${errorMessage}" class="error-message">
-            <p th:text="${errorMessage}"></p>
-        </div>
-        
-        <form action="/login" method="post" th:action="@{/login}">
-            <label for="email">Email:</label>
-            <input type="email" value ="" id="email" name="email" th:required="required">
-            
-            <label for="password">Password:</label>
-            <input type="password" value="" id="password" name="password" th:required="required">
->>>>>>> 82a4160d4176d4b8fa2f52e3091d91dfdbf655ee
-            
+
             <button type="submit">Login</button>
         </form>
     </section>
-<<<<<<< HEAD
 
     <script>
         function togglePasswordVisibility() {
@@ -128,7 +112,5 @@
             }
         }
     </script>
-=======
->>>>>>> 82a4160d4176d4b8fa2f52e3091d91dfdbf655ee
 </body>
 </html>

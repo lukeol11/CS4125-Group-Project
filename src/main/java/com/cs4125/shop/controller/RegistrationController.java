@@ -47,7 +47,13 @@ public class RegistrationController {
             case INVALID_EMAIL:
                 return "Invalid email address.";
             case INVALID_PASSWORD:
-                return "Invalid password.";
+            return "Please ensure that your password:<br/><br/>" +
+                "- Is between 8 and 16 characters long,<br/>" +
+                "- Contains at least 1 uppercase letter,<br/>" +
+                "- Contains at least 1 lowercase letter,<br/>" +
+                "- Includes at least 1 special character,<br/>" +
+                "- Includes at least 1 number.<br/><br/>" +
+                "Thank you for choosing a secure password!";
             case EMAIL_ALREADY_REGISTERED:
                 return "Email is already registered.";
             case PASSWORDS_DO_NOT_MATCH:

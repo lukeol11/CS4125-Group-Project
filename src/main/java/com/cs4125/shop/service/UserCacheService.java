@@ -12,16 +12,26 @@ import java.util.List;
 
 @Service
 public class UserCacheService {
-    private static final String FILE_PATH = "src/main/resources/data/user.txt"; // Changed the file name to "User.txt"
+    private static final String FILE_PATH = "src/main/resources/data/user.txt";
+    private static UserCacheService instance;
+
     private List<User> userCache = new ArrayList<>();
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void registerUser(User user) {
-        // Hash the password before saving.
-        user.setHashedPassword(passwordEncoder.encode(user.getRawPassword()));
+    private UserCacheService() {
+        // adding this private constructor to prevent external instantiation
+    }
 
+    public static synchronized UserCacheService getInstance() {
+        if (instance == null) {
+            instance = new UserCacheService();
+        }
+        return instance;
+    }
+
+    public void registerUser(User user) {
         userCache.add(user);
         saveUsersToFile();
     }
@@ -43,7 +53,7 @@ public class UserCacheService {
     }
 
     private void saveUsersToFile() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
             for (User user : userCache) {
                 writer.write("Username: " + user.getUsername() + "\n");
                 writer.write("Email: " + user.getEmail() + "\n");

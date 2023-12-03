@@ -54,15 +54,19 @@
             color: #ff0000;
             margin-bottom: 1em;
         }
-<<<<<<< HEAD
 
         /* Password toggle styling */
-        .password-toggle {
-            margin-left: 5px;
+        .password-container {
+            position: relative;
+        }
+
+        .show-password-icon {
+            position: absolute;
+            height: 25px;
+            top: 35%;
+            right: 10px;
             cursor: pointer;
         }
-=======
->>>>>>> 82a4160d4176d4b8fa2f52e3091d91dfdbf655ee
     </style>
 </head>
 <body>
@@ -73,42 +77,41 @@
     <section>
         <h2>User Registration</h2>
         <div th:if="${errorMessage}" class="error-message">
-            <p th:text="${errorMessage}"></p>
+            <p th:utext="${errorMessage}"></p>
         </div>
         
         <form action="/register" method="post" th:action="@{/register}">
             <label for="email">Email:</label>
             <input type="text" id="email" name="email" value=""  th:required="required">
             
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" th:required="required">
-            
-<<<<<<< HEAD
-            <!-- Checkbox to toggle password visibility -->
-            <input type="checkbox" class="password-toggle" id="togglePassword">
-            <label for="togglePassword" class="password-toggle">Show Password</label>
+            <label for="password" class="password-container">Password:
+                <input type="password" id="password" name="password" th:required="required">
+                <img th:src="@{icons/show.png}" alt="Show Password" class="show-password-icon" onclick="togglePasswordVisibility('password')">
+            </label>
 
-=======
->>>>>>> 82a4160d4176d4b8fa2f52e3091d91dfdbf655ee
-            <label for="confirmPassword">Confirm Password:</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" th:required="required">
+            <label for="confirmPassword" class="password-container">Confirm Password:
+                <input type="password" id="confirmPassword" name="confirmPassword" th:required="required">
+                <img th:src="@{icons/show.png}" alt="Show Password" class="show-password-icon" onclick="togglePasswordVisibility('password')">
+            </label>
             
             <button type="submit">Register</button>
         </form>
     </section>
-<<<<<<< HEAD
 
     <script>
         // JavaScript to toggle password visibility
-        const passwordInput = document.getElementById('password');
-        const togglePassword = document.getElementById('togglePassword');
+        function togglePasswordVisibility(fieldId) {
+            var passwordInput = document.getElementById(fieldId);
+            var icon = document.querySelector('.show-password-icon');
 
-        togglePassword.addEventListener('change', function () {
-            const type = this.checked ? 'text' : 'password';
-            passwordInput.type = type;
-        });
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.src = 'icons/hide.png';
+            } else {
+                passwordInput.type = 'password';
+                icon.src = 'icons/show.png';
+            }
+        }
     </script>
-=======
->>>>>>> 82a4160d4176d4b8fa2f52e3091d91dfdbf655ee
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.cs4125.shop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,11 +15,11 @@ import com.cs4125.shop.service.LoginService;
 public class LoginController {
 
     @Autowired
+    @Qualifier("loginServiceProxy")
     private LoginService loginService;
 
     @GetMapping("/login")
     public String showLoginForm(Model model) {
-
         model.addAttribute("errorMessage", ""); // Initialize error message
         return "login"; // Return the login form template.
     }
@@ -30,13 +31,12 @@ public class LoginController {
         Model model
     ) {
         // Perform login validation and logic.
-        System.out.println(email);
-        System.out.println(password);
         User user = loginService.login(email, password);
 
         if (user != null) {
             // Successful login.
             System.out.println("User in session: " + user.getEmail());
+            model.addAttribute("user", user);
             return "homepage"; // Redirect to the dashboard or any other page.
         } else {
             System.out.println("User not found");

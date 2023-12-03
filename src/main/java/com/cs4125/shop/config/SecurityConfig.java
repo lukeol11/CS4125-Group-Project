@@ -20,21 +20,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .authorizeRequests()
-                .antMatchers("/register", "/api/**", "/css/**", "/js/**", "/loginactivity").permitAll() // Allowing access to /api/** without authentication
+                .csrf().disable() // Disable CSRF protection
+                .authorizeRequests()
+                .antMatchers("/register", "/api/**", "/css/**", "/js/**", "/icons/**", "/loginactivity").permitAll()
                 .anyRequest().authenticated()
                 .and()
-            .formLogin()
+                .formLogin()
                 .loginPage("/login")
                 .permitAll()
-//                .defaultSuccessUrl("/homepage", true)
                 .and()
-            .logout()
+                .logout()
                 .permitAll();
 
         // Redirect to the register page after successful registration
         http
-            .logout()
-            .logoutSuccessUrl("/register?logout");
+                .logout()
+                .logoutSuccessUrl("/register?logout");
     }
 }

@@ -114,7 +114,7 @@ public class ComponentController {
         return componentInfoList;
     }
 
-    @GetMapping("/add")
+    @PostMapping("/add")
     public void addComponentToCart(@RequestParam("name") String componentName) {
         System.out.println(componentName);
         for (Component component : componentList) {

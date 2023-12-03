@@ -1,5 +1,6 @@
 package com.cs4125.shop.service;
 
+import com.cs4125.shop.builder.UserBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -47,8 +48,16 @@ public class RegistrationService {
             return RegistrationResult.PASSWORDS_DO_NOT_MATCH;
         }
 
-        // Register the user.
-        userCacheService.registerUser(new User(email, hashedPassword, 0));
+        // Register the user
+        User user = new UserBuilder()
+                .withEmail(email)
+                .withRawPassword(password)
+                .withLoyaltyPoints(0)
+                .build();
+
+        // Register the user
+        userCacheService.registerUser(user);
+
 
         return RegistrationResult.SUCCESS;
     }
