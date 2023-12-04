@@ -84,6 +84,7 @@ public class ComponentController {
         componentList.add(storageFactory.createComponent("Samsung 970 Evo 1TB", 169.99, 10, 1000, "M.2"));
         componentList.add(storageFactory.createComponent("Samsung 970 Evo 2TB", 349.99, 10, 2000, "M.2"));
         componentList.add(storageFactory.createComponent("Samsung 970 Evo 4TB", 749.99, 10, 4000, "HDD"));
+        //Make Subscriptions a purchasable item
         componentList.add(subscriptionFactory.createComponent("Silver subscription", 19.99, 0, SubscriptionState.SILVER));
         componentList.add(subscriptionFactory.createComponent("Gold subscription", 29.99, 0, SubscriptionState.GOLD));
         componentList.add(subscriptionFactory.createComponent("Platinum subscription", 49.99, 0, SubscriptionState.PLATINUM));
@@ -116,10 +117,12 @@ public class ComponentController {
 
     @PostMapping("/cart/add")
     public ResponseEntity<String> addComponentToCart(@RequestParam("name") String componentName) {
+        //Iterate through each item on the list and check if it equals the one to be added to cart
         for (Component component : componentList) {
             if (component.getName().equals(componentName)) {
-                // check compatibility
+                //If it matches, check compatibility with items in the cart
                 if (compatibility.isCompatibleWith(componentList, cart)) {
+                    //If compatible, add to the cart
                     cart.addComponent(component);
                 } else {
                     return ResponseEntity.badRequest().body("Not added");
@@ -131,9 +134,13 @@ public class ComponentController {
 
     @PostMapping("/cart/remove")
     public ResponseEntity<String> removeFromCart(@RequestParam("name") String componentName) {
+        //Iterate through each item on the list and check if it equals the one to be removed from the cart
         for (Component component : componentList) {
             if (component.getName().equals(componentName)) {
+                //If there is a match, remove component
                 cart.removeComponent(component);
+            } else {
+                return ResponseEntity.badRequest().body("Not in the cart, cannot be removed");
             }
         }
         return ResponseEntity.badRequest().body("Removed successfully");
@@ -148,8 +155,10 @@ public class ComponentController {
     public ResponseEntity<?> getLoyaltyPoints(@RequestParam("username") String username) {
         User user = findUserByUsername(username);
 
+        //If there is a valid user then get subscription
         if (user != null) {
             Subscription userSubscription = user.getSubscription();
+            //If the user has subscription, calculate it with the Subscription they have
             if (userSubscription != null) {
                 int loyaltyPoints = userSubscription.calculateLoyaltyPoints(user.getLoyaltyPoints());
                 return ResponseEntity.ok(loyaltyPoints);
@@ -202,7 +211,7 @@ public class ComponentController {
 
         user.deductLoyaltyPoints(discount);
 
-        // Handle subscription addition from the cart to the user here
+        //If there is a subscription in the cart, change the users subscription so it applies to them at checkout
         if (cart.hasSubscription()) {
             Subscription cartSubscription = cart.getSubscription();;
             user.addSubscription(cartSubscription);

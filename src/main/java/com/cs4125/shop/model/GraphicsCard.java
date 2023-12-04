@@ -27,7 +27,7 @@ public class GraphicsCard extends Component implements GraphicsCardFactory {
         return GPULength;
     }
 
-    // Check if the graphics card can fit in the case
+    //Check if the graphics card can fit in the case that is in the cart
     public boolean isCompatibleWith(List<Component> dimension) {
         if (dimension instanceof Case) {
             int dime = ((Case) dimension).getDime();

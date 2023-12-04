@@ -30,10 +30,12 @@ public class ShoppingCart {
         components.clear();
     }
 
+    //To check if the cart contains a subscription
     public boolean hasSubscription() {
         return components.stream().anyMatch(component -> component instanceof Subscription);
     }
 
+    //Get subscription that is in the cart
     public Subscription getSubscription() {
         return subscription;
     }

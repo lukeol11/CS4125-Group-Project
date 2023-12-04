@@ -72,20 +72,19 @@ public class User implements UserFactory {
         }
     }
 
+    //Get subscription of the user
     public Subscription getSubscription() {
         return subscription;
     }
 
+    //Update the user's subscription type
     public void addSubscription(Subscription subscriptionToAdd) {
-        if (subscription == null) {
+        if (subscriptionToAdd != null) {
             this.subscription = subscriptionToAdd;
-            System.out.println("Subscription added to the cart: " + subscriptionToAdd.getName());
+            System.out.println("Subscription added to the user: " + subscriptionToAdd.getName());
         } else {
-            if (subscription.getName().equals(subscriptionToAdd.getName())) {
-                System.out.println("This subscription is already in the cart.");
-            } else {
-                System.out.println("Another subscription already exists in the cart.");
-            }
+            // If subscriptionToAdd is null, set the subscription to "STANDARD"
+            this.subscription = new Subscription("Silver subscription", 19.99, 0, SubscriptionState.SILVER); // Assuming "STANDARD" subscription doesn't require additional parameters
         }
     }
 }

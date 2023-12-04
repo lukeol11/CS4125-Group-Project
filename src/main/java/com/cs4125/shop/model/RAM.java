@@ -22,6 +22,7 @@ public class RAM extends Component implements RAMFactory {
         return speed;
     }
 
+    //Check if RAM is compatible with the CPU in the cart
     public boolean isCompatibleWith(List<Component> component) {
     for(Component components: component) {
         if (components instanceof CPU) {

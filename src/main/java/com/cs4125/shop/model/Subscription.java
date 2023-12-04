@@ -19,6 +19,7 @@ public class Subscription extends Component {
         return state.calculateLoyaltyPoints(loyaltyPoints);
     }
 
+    //Subscriptions aren't compatible, only one in the cart at a time
     public boolean isCompatibleWith(List<Component> items) {
         for (Component component: items) {
             if (component instanceof Subscription) {
