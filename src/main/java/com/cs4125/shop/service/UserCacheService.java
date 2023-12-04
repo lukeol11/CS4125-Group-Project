@@ -49,6 +49,7 @@ public class UserCacheService {
     private void saveUsersToFile() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
             for (User user : userCache) {
+                writer.write("Username: " + user.getUsername() + "\n");
                 writer.write("Email: " + user.getEmail() + "\n");
                 writer.write("Hashed Password: " + user.getHashedPassword() + "\n");
                 writer.write("Raw Password: " + user.getRawPassword() + "\n");
@@ -66,6 +67,7 @@ public class UserCacheService {
             while ((currentLine = reader.readLine()) != null) {
                 if (currentLine.startsWith("Username: ")) {
                     User user = new User();
+                    user.setUsername(currentLine.substring("Username: ".length()).trim());
                     user.setEmail(reader.readLine().substring("Email: ".length()).trim());
                     user.setHashedPassword(reader.readLine().substring("Hashed Password: ".length()).trim());
                     user.setRawPassword(reader.readLine().substring("Raw Password: ".length()).trim());

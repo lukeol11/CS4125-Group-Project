@@ -30,13 +30,12 @@ public class SameItemDiscountDecorator extends DiscountDecorator {
 
         for (Component item : cartItems) {
             String itemName = item.getName();
-            if (itemNames.contains(itemName)) {
+            if (!itemNames.add(itemName)) {
                 return true;
-            } else {
-                itemNames.add(itemName);
             }
         }
 
         return false;
     }
+
 }

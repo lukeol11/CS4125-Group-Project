@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.io.Serializable;
 
 public class User implements UserFactory, Serializable {
+    private String username;
     private String email;
     private String hashedPassword;
     private String rawPassword;
@@ -15,15 +16,36 @@ public class User implements UserFactory, Serializable {
     public User() {
     }
 
-    // Constructors.
+    // Constructors
     public User(String email, String rawPassword, int loyaltyPoints) {
         this.email = email;
-        this.hashedPassword = encryptPassword(rawPassword); // Encrypting the password.
-        this.rawPassword = rawPassword; // Storing the raw password temporarily.
+        this.hashedPassword = encryptPassword(rawPassword); // Encrypting the password
+        this.rawPassword = rawPassword; // Storing the raw password temporarily
         this.loyaltyPoints = loyaltyPoints;
     }
 
-    // Getter and setter methods.
+    public User(String username, String email, String rawPassword, int loyaltyPoints) {
+        this.username = username;
+        this.email = email;
+        this.hashedPassword = encryptPassword(rawPassword); // Encrypting the password
+        this.rawPassword = rawPassword; // Storing the raw password temporarily
+        this.loyaltyPoints = loyaltyPoints;
+    }
+
+    public User(String username, int loyaltyPoints) {
+        this.username = username;
+        this.loyaltyPoints = loyaltyPoints;
+    }
+
+    // Getter and setter methods
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getEmail() {
         return email;
     }

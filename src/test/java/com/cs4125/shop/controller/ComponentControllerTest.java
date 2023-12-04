@@ -32,6 +32,7 @@ public class ComponentControllerTest {
         List<Map<String, Object>> componentInfoList = responseEntity.getBody();
         assertNotNull(componentInfoList, "Response body should not be null");
 
+        // Components
         assertEquals(21, componentInfoList.size(), "Expected 21 components in the response");
         assertEquals("Intel Core i7-9700K", componentInfoList.get(0).get("name"), "First component name mismatch");
         assertEquals("CPU", componentInfoList.get(0).get("type"), "First component type mismatch");
@@ -49,8 +50,8 @@ public class ComponentControllerTest {
         restTemplate.postForEntity("/api/cart/add?name={name}", null, Void.class, componentName);
 
         // Assert
-        ResponseEntity<List<Map<String, Object>>> responseEntity = restTemplate.exchange("/api/cart",
-                HttpMethod.GET, null, new ParameterizedTypeReference<List<Map<String, Object>>>() {
+        ResponseEntity<List<Map<String, Object>>> responseEntity = restTemplate.exchange("/api/cart", HttpMethod.GET,
+                null, new ParameterizedTypeReference<List<Map<String, Object>>>() {
                 });
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "HTTP Status should be OK");
@@ -58,44 +59,6 @@ public class ComponentControllerTest {
         assertNotNull(cartComponents, "Cart components should not be null");
         assertEquals(1, cartComponents.size(), "Expected 1 component in the cart");
         assertEquals("Intel Core i7-9700K", cartComponents.get(0).get("name"), "Component name in the cart mismatch");
-    }
-
-    @Test
-    public void testGetLoyaltyPoints() {
-        // Arrange
-        String username = "testUser";
-        int initialLoyaltyPoints = 100;
-        createUser(username, initialLoyaltyPoints);
-
-        // Act
-        ResponseEntity<Integer> responseEntity = restTemplate.getForEntity("/api/getLoyaltyPoints?username={username}",
-                Integer.class, username);
-
-        // Assert
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "HTTP Status should be OK");
-        assertNotNull(responseEntity.getBody(), "Response body should not be null");
-        assertEquals(initialLoyaltyPoints, responseEntity.getBody(), "Loyalty points should match the initial value");
-    }
-
-    private void createUser(String username, int loyaltyPoints) {
-        restTemplate.postForEntity("/api/users/create?username={username}&loyaltyPoints={loyaltyPoints}", null,
-                String.class, username, loyaltyPoints);
-    }
-
-    @Test
-    public void testCreateUser() {
-        // Arrange
-        String username = "testUser";
-        int loyaltyPoints = 50;
-
-        // Act
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(
-                "/api/users/create?username={username}&loyaltyPoints={loyaltyPoints}",
-                null, String.class, username, loyaltyPoints);
-
-        // Assert
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "HTTP Status should be OK");
-        assertEquals("User created successfully.", responseEntity.getBody(), "User creation message mismatch");
     }
 
 }

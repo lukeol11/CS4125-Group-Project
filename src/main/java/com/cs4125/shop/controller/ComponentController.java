@@ -136,51 +136,50 @@ public class ComponentController {
     }
 
     @PostMapping("/checkout")
-public ResponseEntity<String> checkout(@RequestParam("email") String email,
-        @RequestParam("useLoyaltyPoints") int useLoyaltyPoints) {
-    ResponseEntity<User> userResponse = userController.getUserByEmail(email);
+    public ResponseEntity<String> checkout(@RequestParam("email") String email,
+            @RequestParam("useLoyaltyPoints") double useLoyaltyPoints) {
+        ResponseEntity<User> userResponse = userController.getUserByEmail(email);
 
-    if (userResponse.getStatusCode() == HttpStatus.OK) {
-        User user = userResponse.getBody();
+        if (userResponse.getStatusCode() == HttpStatus.OK) {
+            User user = userResponse.getBody();
 
-        CartTotal cartTotal = new CartTotal(cart); // Create an instance of CartTotal
-        double totalAmount = cartTotal.calculateTotalCartPrice();
+            CartTotal cartTotal = new CartTotal(cart); // Create an instance of CartTotal
+            double totalAmount = cartTotal.calculateTotalCartPrice();
 
-        // Applying loyalty points discount
-        double discount = useLoyaltyPoints;
+            double discount = useLoyaltyPoints;
 
-        // Check if 'user' is not null before accessing 'getLoyaltyPoints()'
-        if (user != null && discount > user.getLoyaltyPoints()) {
-            discount = user.getLoyaltyPoints();
-        }
-
-        int pointsAwarded = (int) (totalAmount / 10);
-
-        // Check if 'user' is not null before invoking 'addLoyaltyPoints'
-        if (user != null) {
-            user.addLoyaltyPoints(pointsAwarded);
-            user.deductLoyaltyPoints(discount);
-        }
-
-        // Applying dynamic discounts
-        double discountedAmount = totalAmount;
-
-        for (Discount discountObj : discounts) {
-            if (discountObj.isApplicable()) {
-                discountedAmount = discountObj.applyDiscount(discountedAmount);
-                System.out.println("Applied Discount: " + discountObj.getDescription());
+            // Check if 'user' is not null before accessing 'getLoyaltyPoints()'
+            if (user != null && discount > user.getLoyaltyPoints()) {
+                discount = user.getLoyaltyPoints();
             }
+
+            double discountedAmount = totalAmount;
+
+            for (Discount discountObj : discounts) {
+                if (discountObj.isApplicable()) {
+                    discountedAmount = discountObj.applyDiscount(discountedAmount);
+                    System.out.println("Applied Discount: " + discountObj.getDescription());
+                }
+            }
+
+            int pointsAwarded = (int) (totalAmount / 10);
+
+            // Check if 'user' is not null before invoking 'addLoyaltyPoints'
+            if (user != null) {
+                user.addLoyaltyPoints(pointsAwarded);
+
+                user.deductLoyaltyPoints(discount);
+            }
+
+            cart.clearCart();
+
+            return ResponseEntity.ok("Checkout successful. Loyalty points used: " + discount
+                    + " euros. Loyalty points earned: " + pointsAwarded +
+                    "\nTotal Amount after Discounts: " + discountedAmount);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
         }
-
-        cart.clearCart();
-
-        return ResponseEntity.ok("Checkout successful. Loyalty points used: " + discount
-                + " euros. Loyalty points earned: " + pointsAwarded +
-                "\nTotal Amount after Discounts: " + discountedAmount);
-    } else {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
     }
-}
 
     @GetMapping("/user/find/{email}")
     public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
