@@ -133,4 +133,52 @@ public class ComponentControllerTest {
         assertEquals(expectedLoyaltyPoints, user.getLoyaltyPoints(),
                 "Loyalty points should be updated after checkout with 10% of the total price");
     }
+
+    @Test
+    public void testUseMoreLoyaltyPointsThanAvailable() {
+        // Arrange
+        String email = "cathal@gmail.com";
+
+        // Add components to the cart
+        restTemplate.postForEntity("/api/cart/add?name=Intel Core i7-9700K", null, Void.class);
+        ShoppingCart cart = new ShoppingCart();
+
+        // Get the user's current loyalty points
+        ResponseEntity<User> userResponseBeforeCheckout = restTemplate.getForEntity("/api/user/find/{email}",
+                User.class, email);
+        assertEquals(HttpStatus.OK, userResponseBeforeCheckout.getStatusCode(), "HTTP Status should be OK");
+        User userBeforeCheckout = userResponseBeforeCheckout.getBody();
+        assertNotNull(userBeforeCheckout, "User should not be null");
+        double initialLoyaltyPoints = userBeforeCheckout.getLoyaltyPoints();
+
+        // Act
+        double useLoyaltyPoints = initialLoyaltyPoints + 50.0; // Try to use more loyalty points than available
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(
+                "/api/checkout?email={email}&useLoyaltyPoints={useLoyaltyPoints}",
+                null,
+                String.class,
+                email,
+                useLoyaltyPoints);
+
+        // Assert
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "HTTP Status should be OK");
+        String responseBody = responseEntity.getBody();
+        assertNotNull(responseBody, "Response body should not be null");
+
+        // Verify user's loyalty points after checkout
+        ResponseEntity<User> userResponseAfterCheckout = restTemplate.getForEntity("/api/user/find/{email}", User.class,
+                email);
+        assertEquals(HttpStatus.OK, userResponseAfterCheckout.getStatusCode(), "HTTP Status should be OK");
+        User userAfterCheckout = userResponseAfterCheckout.getBody();
+        assertNotNull(userAfterCheckout, "User should not be null");
+
+        // User should have used all available loyalty points
+        assertEquals(0.0, userAfterCheckout.getLoyaltyPoints(), "User should have used all available loyalty points");
+
+        // Verify that the loyalty points used in the response match the initial
+        // available points
+        assertTrue(responseBody.contains("Loyalty points used: " + initialLoyaltyPoints + " euros"),
+                "Expected a message indicating " + initialLoyaltyPoints + " points used in the response");
+    }
+
 }
