@@ -2,7 +2,7 @@ package com.cs4125.shop.model;
 
 import java.util.List;
 
-import com.cs4125.shop.model.factory.CPUFactory;
+import com.cs4125.shop.factory.CPUFactory;
 
 public class CPU extends Component implements CPUFactory {
     private int cores;

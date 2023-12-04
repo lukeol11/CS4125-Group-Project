@@ -1,8 +1,9 @@
 package com.cs4125.shop.model;
 
-import com.cs4125.shop.model.factory.UserFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.cs4125.shop.factory.UserFactory;
 
 import java.io.Serializable;
 

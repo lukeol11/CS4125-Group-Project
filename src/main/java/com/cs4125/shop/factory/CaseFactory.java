@@ -1,4 +1,4 @@
-package com.cs4125.shop.model.factory;
+package com.cs4125.shop.factory;
 
 import com.cs4125.shop.model.Case;
 import com.cs4125.shop.model.Component;

@@ -1,7 +1,8 @@
 package com.cs4125.shop.model;
 
 import java.util.List;
-import com.cs4125.shop.model.factory.GraphicsCardFactory;
+
+import com.cs4125.shop.factory.GraphicsCardFactory;
 
 public class GraphicsCard extends Component implements GraphicsCardFactory {
     private int memory;

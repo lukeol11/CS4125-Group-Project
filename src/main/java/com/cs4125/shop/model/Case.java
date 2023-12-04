@@ -2,7 +2,7 @@ package com.cs4125.shop.model;
 
 import java.util.List;
 
-import com.cs4125.shop.model.factory.CaseFactory;
+import com.cs4125.shop.factory.CaseFactory;
 
 public class Case extends Component implements CaseFactory {
     private String formFactor;

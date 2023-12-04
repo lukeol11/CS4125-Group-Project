@@ -2,7 +2,7 @@ package com.cs4125.shop.model;
 
 import java.util.List;
 
-import com.cs4125.shop.model.factory.RAMFactory;
+import com.cs4125.shop.factory.RAMFactory;
 
 public class RAM extends Component implements RAMFactory {
     private int capacity;

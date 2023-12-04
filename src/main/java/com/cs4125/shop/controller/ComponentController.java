@@ -1,14 +1,14 @@
 package com.cs4125.shop.controller;
 
+import com.cs4125.shop.factory.CPUFactory;
+import com.cs4125.shop.factory.CaseFactory;
+import com.cs4125.shop.factory.GraphicsCardFactory;
+import com.cs4125.shop.factory.MotherboardFactory;
+import com.cs4125.shop.factory.PowerSupplyFactory;
+import com.cs4125.shop.factory.RAMFactory;
+import com.cs4125.shop.factory.StorageFactory;
+import com.cs4125.shop.factory.UserFactory;
 import com.cs4125.shop.model.*;
-import com.cs4125.shop.model.factory.UserFactory;
-import com.cs4125.shop.model.factory.CPUFactory;
-import com.cs4125.shop.model.factory.GraphicsCardFactory;
-import com.cs4125.shop.model.factory.MotherboardFactory;
-import com.cs4125.shop.model.factory.PowerSupplyFactory;
-import com.cs4125.shop.model.factory.RAMFactory;
-import com.cs4125.shop.model.factory.CaseFactory;
-import com.cs4125.shop.model.factory.StorageFactory;
 import com.cs4125.shop.shoppingcart.ShoppingCart;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,40 +136,39 @@ public class ComponentController {
     }
 
     @PostMapping("/checkout")
-public ResponseEntity<String> checkout(@RequestParam("email") String email,
-        @RequestParam("useLoyaltyPoints") int useLoyaltyPoints) {
-    ResponseEntity<User> userResponse = userController.getUserByEmail(email);
+    public ResponseEntity<String> checkout(@RequestParam("email") String email,
+            @RequestParam("useLoyaltyPoints") int useLoyaltyPoints) {
+        ResponseEntity<User> userResponse = userController.getUserByEmail(email);
 
-    if (userResponse.getStatusCode() == HttpStatus.OK) {
-        User user = userResponse.getBody();
+        if (userResponse.getStatusCode() == HttpStatus.OK) {
+            User user = userResponse.getBody();
 
-        CartTotal cartTotal = new CartTotal(cart); // Create an instance of CartTotal
-        double totalAmount = cartTotal.calculateTotalCartPrice();
+            CartTotal cartTotal = new CartTotal(cart); // Create an instance of CartTotal
+            double totalAmount = cartTotal.calculateTotalCartPrice();
 
-        double discount = useLoyaltyPoints;
+            double discount = useLoyaltyPoints;
 
-        // Check if 'user' is not null before accessing 'getLoyaltyPoints()'
-        if (user != null && discount > user.getLoyaltyPoints()) {
-            discount = user.getLoyaltyPoints();
+            // Check if 'user' is not null before accessing 'getLoyaltyPoints()'
+            if (user != null && discount > user.getLoyaltyPoints()) {
+                discount = user.getLoyaltyPoints();
+            }
+
+            int pointsAwarded = (int) (totalAmount / 10);
+
+            // Check if 'user' is not null before invoking 'addLoyaltyPoints'
+            if (user != null) {
+                user.addLoyaltyPoints(pointsAwarded);
+
+                user.deductLoyaltyPoints(discount);
+            }
+
+            cart.clearCart();
+            return ResponseEntity.ok("Checkout successful. Loyalty points used: " + discount
+                    + " euros. Loyalty points earned: " + pointsAwarded);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
         }
-
-        int pointsAwarded = (int) (totalAmount / 10);
-
-        // Check if 'user' is not null before invoking 'addLoyaltyPoints'
-        if (user != null) {
-            user.addLoyaltyPoints(pointsAwarded);
-        
-            user.deductLoyaltyPoints(discount);
-        }
-
-
-        cart.clearCart();
-        return ResponseEntity.ok("Checkout successful. Loyalty points used: " + discount
-                + " euros. Loyalty points earned: " + pointsAwarded);
-    } else {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
     }
-}
 
     @GetMapping("/user/find/{email}")
     public ResponseEntity<User> getUserByEmail(@PathVariable String email) {

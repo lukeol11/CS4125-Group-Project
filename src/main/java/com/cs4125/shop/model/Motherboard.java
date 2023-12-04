@@ -3,7 +3,7 @@ package com.cs4125.shop.model;
 // import org.hibernate.mapping.List;
 import java.util.List;
 
-import com.cs4125.shop.model.factory.MotherboardFactory;
+import com.cs4125.shop.factory.MotherboardFactory;
 
 public class Motherboard extends Component implements MotherboardFactory {
     private String chipset;

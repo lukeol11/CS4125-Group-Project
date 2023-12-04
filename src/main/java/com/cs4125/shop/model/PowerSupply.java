@@ -2,10 +2,7 @@ package com.cs4125.shop.model;
 
 import java.util.List;
 
-//import org.hibernate.mapping.List;
-// import com.cs4125.shop.shoppingcart.ShoppingCart;
-
-import com.cs4125.shop.model.factory.PowerSupplyFactory;
+import com.cs4125.shop.factory.PowerSupplyFactory;
 
 public class PowerSupply extends Component implements PowerSupplyFactory {
     private int wattageOutput;
