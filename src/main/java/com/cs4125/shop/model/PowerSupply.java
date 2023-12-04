@@ -25,7 +25,6 @@ public class PowerSupply extends Component implements PowerSupplyFactory {
         return efficiencyRating;
     }
 
-    // @Override
     public boolean isCompatibleWith(List<Component> comp) {
         int totalWattage = 0;
         for (Component component : comp) {

@@ -26,14 +26,5 @@ public abstract class Component {
         return this.wattage;
     }
 
-    public boolean isCompatibleWith(List<Component> component){
-        boolean match = true;
-
-        for (Component components : component) {
-            if (!components.isCompatibleWith(component)) {
-                match = false;
-            }
-        }
-        return match;
-    }
+    public abstract boolean isCompatibleWith(List<Component> component);
 }

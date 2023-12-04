@@ -29,17 +29,14 @@ public class CPU extends Component implements CPUFactory {
         return speedCPU;
     }
 
-    public boolean isCompatibleWith(List<Component> components) {
-        for (Component component : components) {
+    public boolean isCompatibleWith(List<Component> component) {
         if (component instanceof Motherboard) {
             String socket = ((Motherboard) component).getSocket();
-            return !this.socketCPU.equals(socket);
+            return this.socketCPU.equals(socket);
         } else if (component instanceof RAM) {
-            System.out.println("Checking here");
             int speed = ((RAM) component).getSpeed();
-            return this.speedCPU != speed;
+            return this.speedCPU == speed;
         }
-    }
         System.out.println("Run CPU");
         return true;
     }

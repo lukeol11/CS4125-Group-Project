@@ -33,9 +33,11 @@ public class Case extends Component implements CaseFactory {
         if (component instanceof GraphicsCard) {
             // Check if the GPU length is compatible with the case's dimensions
             int gpuLength = ((GraphicsCard) component).getGPULength();
-            return gpuLength <= this.dime;
+            if (gpuLength >= this.dime) {
+                return false;
+            }
         }
         System.out.println("Run Case");
-        return false;
+        return true;
     }
 }

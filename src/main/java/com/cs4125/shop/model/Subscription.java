@@ -1,5 +1,8 @@
 package com.cs4125.shop.model;
 
+import java.util.List;
+
+
 public class Subscription extends Component {
     private SubscriptionState state;
 
@@ -14,5 +17,14 @@ public class Subscription extends Component {
 
     public int calculateLoyaltyPoints(int loyaltyPoints) {
         return state.calculateLoyaltyPoints(loyaltyPoints);
+    }
+
+    public boolean isCompatibleWith(List<Component> items) {
+        for (Component component: items) {
+            if (component instanceof Subscription) {
+                return false;
+            }
+        }
+        return true;
     }
 }

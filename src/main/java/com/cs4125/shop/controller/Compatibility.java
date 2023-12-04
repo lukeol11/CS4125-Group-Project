@@ -14,11 +14,10 @@ public class Compatibility {
         System.out.println("Run Compatibility");
         for (Component cartComponent : cart.getComponents()) {
             boolean isComponentCompatible = false;
-                if (cartComponent.isCompatibleWith(items)) {
-                    isComponentCompatible = true;
+            if (cartComponent.isCompatibleWith(items)) {
+                isComponentCompatible = true;
             }
             if (!isComponentCompatible) {
-        System.out.println("Last component added is incompatible with the cart");
                 return false;
             }
         }
