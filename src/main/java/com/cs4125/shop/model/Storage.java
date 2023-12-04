@@ -20,13 +20,12 @@ public class Storage extends Component {
         return type;
     }
 
+    //Check if storage is compatible with any Motherboards in the cart
     public boolean isCompatibleWith(List<Component> component) {
         if (component instanceof Motherboard) {
-            //Compatibility based on Storage Types
             String storageType = ((Motherboard) component).getStorageType();
             return type.equals(storageType);
         }
-        //For all other components return true
         System.out.println("Run Storage");
         return true;
     }

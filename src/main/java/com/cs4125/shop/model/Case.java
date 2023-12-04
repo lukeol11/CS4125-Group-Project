@@ -28,14 +28,15 @@ public class Case extends Component implements CaseFactory {
         return dime;
     }
 
-    // Check if the case can hold the graphics card
+    //Check if the case can hold the graphics card that is in the cart
     public boolean isCompatibleWith(List<Component> component) {
         if (component instanceof GraphicsCard) {
-            // Check if the GPU length is compatible with the case's dimensions
             int gpuLength = ((GraphicsCard) component).getGPULength();
-            return gpuLength <= this.dime;
+            if (gpuLength >= this.dime) {
+                return false;
+            }
         }
         System.out.println("Run Case");
-        return false;
+        return true;
     }
 }

@@ -27,5 +27,6 @@ public abstract class Component {
         return this.wattage;
     }
 
+    //Abstract compatibility check in the super class for all components to use
     public abstract boolean isCompatibleWith(List<Component> component);
 }
