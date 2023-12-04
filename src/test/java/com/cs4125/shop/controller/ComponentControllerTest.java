@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ComponentControllerTest {
-/*
+
     @Autowired
     private TestRestTemplate restTemplate;
 
@@ -32,6 +32,7 @@ public class ComponentControllerTest {
         List<Map<String, Object>> componentInfoList = responseEntity.getBody();
         assertNotNull(componentInfoList, "Response body should not be null");
 
+        // components
         assertEquals(21, componentInfoList.size(), "Expected 21 components in the response");
         assertEquals("Intel Core i7-9700K", componentInfoList.get(0).get("name"), "First component name mismatch");
         assertEquals("CPU", componentInfoList.get(0).get("type"), "First component type mismatch");
@@ -49,8 +50,8 @@ public class ComponentControllerTest {
         restTemplate.postForEntity("/api/cart/add?name={name}", null, Void.class, componentName);
 
         // Assert
-        ResponseEntity<List<Map<String, Object>>> responseEntity = restTemplate.exchange("/api/cart",
-                HttpMethod.GET, null, new ParameterizedTypeReference<List<Map<String, Object>>>() {
+        ResponseEntity<List<Map<String, Object>>> responseEntity = restTemplate.exchange("/api/cart", HttpMethod.GET,
+                null, new ParameterizedTypeReference<List<Map<String, Object>>>() {
                 });
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "HTTP Status should be OK");
@@ -59,5 +60,5 @@ public class ComponentControllerTest {
         assertEquals(1, cartComponents.size(), "Expected 1 component in the cart");
         assertEquals("Intel Core i7-9700K", cartComponents.get(0).get("name"), "Component name in the cart mismatch");
     }
-    */
+
 }
