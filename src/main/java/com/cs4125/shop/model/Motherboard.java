@@ -35,17 +35,15 @@ public class Motherboard extends Component implements MotherboardFactory {
         return storageType;
     }
 
+    //Check if Motherboard is compatilble with existing CPU or Storage in the cart
     public boolean isCompatibleWith(List<Component> component) {
         if (component instanceof CPU) {
-            // Compatibility based on Socket Type
             String socketCPU = ((CPU) component).getSocketCPU();
             return this.socket.equals(socketCPU);
         } else if (component instanceof Storage) {
-            // Compatibility based on Storage Types
             String type = ((Storage) component).getType();
             return this.storageType.equals(type);
         }
-        // For all other components return true
         System.out.println("Run Mother");
         return true;
     }

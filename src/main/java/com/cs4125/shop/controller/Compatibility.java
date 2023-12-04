@@ -11,12 +11,15 @@ public class Compatibility {
     }
 
     public boolean isCompatibleWith(List<Component> items, ShoppingCart cart) {
-                System.out.println("Run Compatibility");
+        System.out.println("Run Compatibility");
+        //Go through each component of the cart
         for (Component cartComponent : cart.getComponents()) {
             boolean isComponentCompatible = false;
-                if (cartComponent.isCompatibleWith(items)) {
-                    isComponentCompatible = true;
+            //If compatible return true
+            if (cartComponent.isCompatibleWith(items)) {
+                isComponentCompatible = true;
             }
+            //Check if it is false
             if (!isComponentCompatible) {
                 return false;
             }

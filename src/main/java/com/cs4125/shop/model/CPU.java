@@ -29,6 +29,7 @@ public class CPU extends Component implements CPUFactory {
         return speedCPU;
     }
 
+    //Check if CPU is compatible with Motherboard and RAM that is in the cart
     public boolean isCompatibleWith(List<Component> component) {
         if (component instanceof Motherboard) {
             String socket = ((Motherboard) component).getSocket();
