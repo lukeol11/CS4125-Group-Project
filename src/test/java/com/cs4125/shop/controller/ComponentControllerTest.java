@@ -32,7 +32,7 @@ public class ComponentControllerTest {
         List<Map<String, Object>> componentInfoList = responseEntity.getBody();
         assertNotNull(componentInfoList, "Response body should not be null");
 
-        // components
+        // Components
         assertEquals(21, componentInfoList.size(), "Expected 21 components in the response");
         assertEquals("Intel Core i7-9700K", componentInfoList.get(0).get("name"), "First component name mismatch");
         assertEquals("CPU", componentInfoList.get(0).get("type"), "First component type mismatch");

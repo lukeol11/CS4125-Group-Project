@@ -1,6 +1,5 @@
 package com.cs4125.shop.model;
 
-// import org.hibernate.mapping.List;
 import java.util.List;
 
 import com.cs4125.shop.model.factory.MotherboardFactory;

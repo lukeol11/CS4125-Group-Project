@@ -21,7 +21,7 @@ public class UserCacheService {
     private PasswordEncoder passwordEncoder;
 
     private UserCacheService() {
-        // adding this private constructor to prevent external instantiation
+        // Added this private constructor to prevent external instantiation.
     }
 
     public static synchronized UserCacheService getInstance() {
@@ -38,18 +38,12 @@ public class UserCacheService {
 
     public User getUserByEmail(String email) {
         loadUsersFromFile();
-//        System.out.println(email);
         for(int i=0; i<userCache.size(); i++)
         {
-//            System.out.println(userCache.get(i).getEmail());
             if(userCache.get(i).getEmail().equals(email))
                 return userCache.get(i);
         }
         return null;
-//        return userCache.stream()
-//                .filter(u -> u.getEmail().equals(email))
-//                .findFirst()
-//                .orElse(null);
     }
 
     private void saveUsersToFile() {
@@ -84,9 +78,9 @@ public class UserCacheService {
                     userCache.add(user);
                 }
             }
-//            System.out.println("Size of User :" + userCache.size());
-        } catch (IOException e) {
-            e.printStackTrace(); // NOSONAR
+        }
+            catch (IOException e) {
+                e.printStackTrace(); // NOSONAR
         }
     }
 }

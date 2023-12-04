@@ -68,7 +68,7 @@ public class User implements UserFactory, Serializable {
 
     public void setRawPassword(String rawPassword) {
         this.rawPassword = rawPassword;
-        this.hashedPassword = encryptPassword(rawPassword); // Encrypting the password when setting raw password
+        this.hashedPassword = encryptPassword(rawPassword); // Encrypting the password when setting raw password.
     }
 
     public int getLoyaltyPoints() {

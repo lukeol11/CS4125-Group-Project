@@ -48,17 +48,15 @@ public class RegistrationService {
             return RegistrationResult.PASSWORDS_DO_NOT_MATCH;
         }
 
-        // Register the user
+        // Register the user.
         User user = new UserBuilder()
                 .withEmail(email)
                 .withRawPassword(password)
                 .withLoyaltyPoints(0)
                 .build();
 
-        // Register the user
+        // Register the user.
         userCacheService.registerUser(user);
-
-
         return RegistrationResult.SUCCESS;
     }
 }

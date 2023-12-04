@@ -2,9 +2,6 @@ package com.cs4125.shop.model;
 
 import java.util.List;
 
-//import org.hibernate.mapping.List;
-// import com.cs4125.shop.shoppingcart.ShoppingCart;
-
 import com.cs4125.shop.model.factory.PowerSupplyFactory;
 
 public class PowerSupply extends Component implements PowerSupplyFactory {
@@ -25,7 +22,6 @@ public class PowerSupply extends Component implements PowerSupplyFactory {
         return efficiencyRating;
     }
 
-    // @Override
     public boolean isCompatibleWith(List<Component> comp) {
         int totalWattage = 0;
         for (Component component : comp) {

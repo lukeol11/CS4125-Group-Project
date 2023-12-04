@@ -1,6 +1,0 @@
-Username: null
-Email: cathal@gmail.com
-Hashed Password: $2a$10$zevI2zlXqfhO8O5ZxmaKAukF2cn.COl9kJ8wXT3JRcXDQb4ZFqbWC
-Raw Password: Ud-4mf]]V9dVC5y
-Loyalty Points: 0
-

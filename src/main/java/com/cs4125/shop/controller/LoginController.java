@@ -20,7 +20,7 @@ public class LoginController {
 
     @GetMapping("/login")
     public String showLoginForm(Model model) {
-        model.addAttribute("errorMessage", ""); // Initialize error message
+        model.addAttribute("errorMessage", ""); // Initialize error message.
         return "login"; // Return the login form template.
     }
 
